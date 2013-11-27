@@ -1,0 +1,15 @@
+{
+  "meteor": {},
+  "dependencies": {
+    "basePackages": {
+      "smart-collections": {}
+    },
+    "packages": {
+      "smart-collections": {
+        "git": "https://github.com/arunoda/meteor-smart-collections.git",
+        "tag": "v0.3.22",
+        "commit": "34710960d08dddc206abefbb59dc17c93735a721"
+      }
+    }
+  }
+}
