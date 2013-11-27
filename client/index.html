@@ -1,0 +1,12 @@
+<head>
+  <title>IdeaBucket</title>
+</head>
+
+<body>
+    {{> errors}}
+    {{#if currentUser}}
+        {{> ideaList}}
+    {{else}}
+        {{> landing}}
+    {{/if}}
+</body>
