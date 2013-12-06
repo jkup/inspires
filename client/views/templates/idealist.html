@@ -1,10 +1,16 @@
 <template name="ideaList">
 	{{loginButtons}}
-	<ul class="idea-list"></ul>
+	<ul class="idea-list">
+	{{#each root_ideas}}
+		{{> ideaItem}}
+	{{else}}
+		<li>Add</li>
+	{{/each}}
+	</ul>
 </template>
 
 <template name="ideaItem">
-   	<li data-behavior="add-idea{{#if remove_action}} remove-on-add{{/if}}"{{#if id}} data-id="{{id}}"{{/if}}>Add new idea</li>
+   	<li data-behavior="add-idea"{{#if id}} data-id="{{id}}"{{/if}}>{{name}}</li>
 </template>
 
 <template name="newIdea">
