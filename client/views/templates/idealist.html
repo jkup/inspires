@@ -1,12 +1,19 @@
 <template name="ideaList">
-	{{loginButtons}}
-	<ul class="idea-list">
-	{{#each root_ideas}}
-		{{> ideaItem}}
-	{{else}}
-		<li>Add</li>
-	{{/each}}
-	</ul>
+	<div class="wrapper">
+		<div class="row">
+			<div class="col-md-10"><h1>Idea List</h1></div>
+			<div class="col-md-2">{{loginButtons}}</div>
+		</div>
+		<div class="row">
+			<ul class="idea-list">
+			{{#each root_ideas}}
+				{{> ideaItem}}
+			{{else}}
+				<li>Add</li>
+			{{/each}}
+			</ul>
+		</div>
+	</div>
 </template>
 
 <template name="ideaItem">

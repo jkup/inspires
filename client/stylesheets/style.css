@@ -1,0 +1,9 @@
+body {
+	background: url('/images/green.jpg') repeat;
+}
+.wrapper {
+	background: #FFF;
+	width: 80%;
+	padding: 25px;
+	margin: 0 auto;
+}
