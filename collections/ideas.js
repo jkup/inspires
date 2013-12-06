@@ -1,1 +1,1 @@
-Ideas = new Meteor.Collection('ideas');
+Ideas = new Meteor.SmartCollection('ideas');
