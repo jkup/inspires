@@ -7,8 +7,8 @@
     "packages": {
       "smart-collections": {
         "git": "https://github.com/arunoda/meteor-smart-collections.git",
-        "tag": "v0.3.22",
-        "commit": "34710960d08dddc206abefbb59dc17c93735a721"
+        "tag": "v0.3.23",
+        "commit": "bb31d4679c8a630db856f6a569a3f3232b3cd301"
       }
     }
   }
