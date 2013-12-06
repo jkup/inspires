@@ -1,4 +1,9 @@
 define('ideaListView', function() {
+    // Setup listeners
+    jQuery(document).on('click', '[data-behavior~=add-idea]', function() {
+        
+    });
+
     var ideaListView = (function() {
         return {
             get_root_ideas: function() {
