@@ -120,7 +120,7 @@ define('ideaListView', ['_Idea'], function(Idea) {
             initialize: function() {}
         };
     }());
-window.ideaListView = ideaListView;
+
     Template.ideaList.helpers({
         root_ideas: ideaListView.get_root_ideas.bind(ideaListView)
         ,root_id: function(){
