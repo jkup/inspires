@@ -5,11 +5,10 @@
 			<div class="col-md-2">{{loginButtons}}</div>
 		</div>
 		<div class="row">
+			<span data-behavior="add-idea" data-id="0">Add {{#if root_ideas}} new Idea.{{else}}Idea{{/if}}</span>
 			<ul class="idea-list">
 			{{#each root_ideas}}
-				{{> ideaItem}}
-			{{else}}
-				<li>Add</li>
+				{{> ideaItem root_id}}
 			{{/each}}
 			</ul>
 		</div>
@@ -17,10 +16,18 @@
 </template>
 
 <template name="ideaItem">
-   	<li{{#if _id}} data-id="{{_id}}"{{/if}}>
-   		<button data-behavior="add-idea"><span class="glyphicon glyphicon-plus"></span></button>
-   		{{name}}
+   	<li>
+   		<span class="glyphicon glyphicon-chevron-right"></span>
+   		<button data-behavior="add-idea" data-id="{{_id}}" data-root-id="{{root_id}}"><span class="glyphicon glyphicon-plus"></span></button>
+   		<span class="idea-name">{{title}}</span>
+   		<ul>{{> children}}</ul>
    	</li>
+</template>
+
+<template name="children">
+	{{#each children}}
+		{{> ideaItem}}
+	{{/each}}
 </template>
 
 <template name="newIdea">
