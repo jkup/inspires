@@ -17,10 +17,12 @@
 
 <template name="ideaItem">
    	<li>
-   		<span class="glyphicon glyphicon-chevron-right"></span>
+   		{{#if children}}
+   		<span class="glyphicon glyphicon-chevron-right" data-behavior="expand-idea" data-root-id="{{root_id}}"></span>
+   		{{/if}}
    		<button data-behavior="add-idea" data-id="{{_id}}" data-root-id="{{root_id}}"><span class="glyphicon glyphicon-plus"></span></button>
    		<span class="idea-name">{{title}}</span>
-   		<ul>{{> children}}</ul>
+   		<ul style="display:none;">{{> children}}</ul>
    	</li>
 </template>
 
