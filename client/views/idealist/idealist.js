@@ -22,6 +22,9 @@ define('ideaListView', ['_Idea'], function(Idea) {
                 ,objectId = $this.data('id')
                 ;
 
+            // If no input from user
+            if (!idea_title) return;
+
             // See if we are adding a root idea or child idea
             if (0 === objectId) {
                 ideaListView.add_root(idea_title);
@@ -48,7 +51,7 @@ define('ideaListView', ['_Idea'], function(Idea) {
                 setTimeout(function() {
                     var ideas = _ideas.fetch();
                     for (var i = 0; i < ideas.length; i++) {
-                        that.build_paths_recursively(ideas[i], ideas[i]._id);
+                        that.build_paths_recursively(ideas[i]);
                     };
                 });
 
@@ -62,7 +65,7 @@ define('ideaListView', ['_Idea'], function(Idea) {
             build_paths_recursively: function() {
                 var args = _.extend([
                     null, // idea
-                    null, // root_id
+                    (arguments[0] ? arguments[0]._id : null), // root_id
                     0, // depth
                     'children' // push_path
                     ], arguments);
@@ -82,7 +85,7 @@ define('ideaListView', ['_Idea'], function(Idea) {
             get_path_to_object: function(objectId) {
                 // If path to object isn't set then build from db
                 if (!paths[objectId]) {
-                    this.build_paths_recursively(this.get_root_idea(objectId), objectId);
+                    this.build_paths_recursively(this.get_root_idea(objectId));
                 }
 
                 return paths[objectId];
@@ -90,7 +93,7 @@ define('ideaListView', ['_Idea'], function(Idea) {
 
             add_root: function(idea_title) {
                 var ObjectId = Ideas.insert(new Idea({title: idea_title}));
-                this.build_paths_recursively(this.get_root_idea(ObjectId), ObjectId);
+                this.build_paths_recursively(this.get_root_idea(ObjectId));
             },
 
             add_child: function(objectId, idea_title) {
