@@ -89,7 +89,8 @@ define('ideaListView', ['_Idea'], function(Idea) {
             },
 
             add_root: function(idea_title) {
-                Ideas.insert(new Idea({title: idea_title}));
+                var ObjectId = Ideas.insert(new Idea({title: idea_title}));
+                this.build_paths_recursively(this.get_root_idea(ObjectId), ObjectId);
             },
 
             add_child: function(objectId, idea_title) {
@@ -104,6 +105,9 @@ define('ideaListView', ['_Idea'], function(Idea) {
                 push[path.push_path] = new Idea({title: idea_title});
 
                 Ideas.update({'_id': new Meteor.Collection.ObjectID(path.root_id).toHexString()}, {$push: push});
+
+                // Update paths
+                this.build_paths_recursively(this.get_root_idea(path.root_id));
             },
 
             get_paths: function() {
