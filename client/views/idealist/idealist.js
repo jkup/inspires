@@ -37,7 +37,7 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
                 ideaListView.add_child(objectId, idea_title);
             }
 
-            nHelper.notify('Idea added', nHelper.SUCCESS);
+            nHelper.notify('Idea added', {type: nHelper.SUCCESS, auto_dismiss: true});
         })
         .on('expand_idea.idea_list', function(e, objectId) {
             jQuery(e.target).siblings('ul').slideDown();

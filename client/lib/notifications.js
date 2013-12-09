@@ -5,10 +5,15 @@ define('notificationsHelper', function() {
         ,WARNING: 'warning'
         ,DANGER: 'danger'
 
-        ,notify: function(msg, level) {
-            if (!level) level = this.INFO;
+        ,notify: function(msg, opts) {
+            opts = _.extend({
+                message: msg
+                ,type: this.INFO
+                ,auto_dismiss: false
+                ,dismiss_after: 3000
+            }, opts);
 
-            Notifications.insert({message: msg, type: level});
+            Notifications.insert(opts);
         }
 
         ,throw_error: function(msg) {

@@ -25,5 +25,11 @@ define('notificationsView', ['notificationsHelper'], function(nHelper) {
         Meteor.defer(function() {
             Notifications.update(notification._id, {$set: {seen: true}});
         });
+
+        if (notification.auto_dismiss) {
+            setTimeout(function(){
+                jQuery('[data-id~=' + notification._id + ']').trigger('click');
+            }, notification.dismiss_after);
+        };
     }
 });
