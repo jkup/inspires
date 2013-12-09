@@ -69,11 +69,20 @@ if (isProdEnv()) {
 	});
 }
 
+var userDefaults = function(name, email) {
+    this.ideas = {
+        opened: []
+    };
+};
+
 Accounts.onCreateUser(function(options, user) {
 	if (user.services) {
 		if (options.profile) {
 			user.profile = options.profile
 		}
+
+		_.extend(user, new userDefaults(options.name, options.email));
+
 		var service = _.keys(user.services)[0];
 		var email = user.services[service].email;
 		if (!email) {

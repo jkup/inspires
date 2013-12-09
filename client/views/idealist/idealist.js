@@ -1,4 +1,3 @@
-// Judgement free zone...wrote this while drinking wine
 define('ideaListView', ['_Idea'], function(Idea) {
     String.prototype.repeat = function(num) {
         return new Array(num + 1).join(this);
@@ -12,7 +11,8 @@ define('ideaListView', ['_Idea'], function(Idea) {
             jQuery(this).trigger('add_idea');
         })
         .on('click', '[data-behavior~=expand-idea]', function() {
-            jQuery(this).trigger('expand_idea');
+            var $this = jQuery(this);
+            $this.trigger('expand_idea', $this.data('id'));
         })
 
         // Setup custom events
@@ -32,8 +32,10 @@ define('ideaListView', ['_Idea'], function(Idea) {
                 ideaListView.add_child(objectId, idea_title);
             }
         })
-        .on('expand_idea.idea_list', function(e) {
+        .on('expand_idea.idea_list', function(e, objectId) {
             jQuery(e.target).siblings('ul').slideDown();
+            delete ideaListView.opened_cache;
+            Meteor.call('userRecordOpenedIdea', objectId);
         })
         ;
 
@@ -117,14 +119,29 @@ define('ideaListView', ['_Idea'], function(Idea) {
                 return paths;
             },
 
+            // User
+
+            is_idea_opened: function(objectId) {
+                if (!this.opened_cache) {
+                    this.opened_cache = Meteor.user().ideas.opened;
+                    console.log(this.opened_cache);
+                }
+
+                return this.opened_cache.indexOf(objectId) !== -1;
+            },
+
             initialize: function() {}
         };
     }());
 
     Template.ideaList.helpers({
         root_ideas: ideaListView.get_root_ideas.bind(ideaListView)
-        ,root_id: function(){
+        ,root_id: function() {
             return _.extend({root_id: this.root_id || this._id}, this);
         }
+    });
+
+    Template.ideaItem.helpers({
+        show_children: ideaListView.is_idea_opened.bind(ideaListView)
     });
 });
