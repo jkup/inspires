@@ -45,6 +45,8 @@ define('ideaListView', ['_Idea'], function(Idea) {
         })
         .on('delete_idea.idea_list', function(e, objectId) {
             var path = ideaListView.get_path_to_object(objectId);
+            // Purge that cache
+            delete ideaListView.opened_cache;
             Meteor.call('ideaDeleteIdea', objectId, path);
         })
         ;
@@ -81,22 +83,29 @@ define('ideaListView', ['_Idea'], function(Idea) {
                         ,0 // depth
                         ,'children' // push_path
                         ,'children' // remove_path
+                        ,'' // select_path
                         ], arguments)
-                    , select_path = 'children.'.repeat(args[2] + 1)
+                    ,select_path = 'children.'.repeat(args[2])
                 ;
 
                 // Add root path
                 paths[args[0]._id] = {
                     depth: args[2]
                     ,root_id: args[1]
-                    ,select_path: select_path.substring(0, select_path.length -1)
+                    ,select_path: args[5]
                     ,push_path: args[3]
                     ,remove_path: args[4]
                 };
-                console.log(paths);
 
                 for (var i = 0; i < args[0].children.length; i++) {
-                    this.build_paths_recursively(args[0].children[i], args[1], args[2] + 1, args[3] + '.' + i + '.children', args[3]);
+                    this.build_paths_recursively(
+                        args[0].children[i] // Idea
+                        ,args[1] // root_id
+                        ,args[2] + 1 // depth
+                        ,args[3] + '.' + i + '.children' // push_path
+                        ,args[3] // remove path
+                        ,args[3] + '.' + i + '.' // select_path
+                    );
                 };
             },
 
