@@ -4,9 +4,18 @@
 
 <body>
     {{> errors}}
+    <header class="wrapper">
+		<div class="row">
+			<div class="col-md-10"><h1>Idea List</h1></div>
+			<div class="col-md-2">{{loginButtons}}</div>
+		</div>
+	</header>
+
     {{#if currentUser}}
         {{> ideaList}}
     {{else}}
         {{> landing}}
     {{/if}}
+
+    <footer></footer>
 </body>
