@@ -1,8 +1,9 @@
 Meteor.publish('ideas', function() {
     return Ideas.find();
 });
+
 Meteor.methods({
-    ideaDeleteIdea: function (objectId, path) {
+    ideaDelete: function (objectId, path) {
     	objectId = new Meteor.Collection.ObjectID(objectId).toHexString();
 
         // Declare variables

@@ -46,10 +46,7 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             Meteor.call('userRecordOpenedIdea', objectId);
         })
         .on('delete_idea.idea_list', function(e, objectId) {
-            var path = ideaListView.get_path_to_object(objectId);
-            // Purge that cache
-            delete ideaListView.opened_cache;
-            Meteor.call('ideaDeleteIdea', objectId, path);
+            ideaListView.remove_idea(objectId);
         })
         ;
 
@@ -140,6 +137,14 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
 
                 // Update paths
                 this.build_paths_recursively(this.get_root_idea(path.root_id));
+            },
+
+            remove_idea: function(objectId) {
+                var path = ideaListView.get_path_to_object(objectId);
+                // Delete
+                Meteor.call('ideaDelete', objectId, path);
+                // Update paths
+                ideaListView.build_paths_recursively(ideaListView.get_root_idea(path.root_id));
             },
 
             get_paths: function() {
