@@ -4,7 +4,7 @@
 			<span data-behavior="add-idea" data-id="0">Add {{#if root_ideas}} new Idea.{{else}}Idea{{/if}}</span>
 			<ul class="idea-list">
 			{{#each root_ideas}}
-				{{> ideaItem root_id}}
+				{{> ideaItem}}
 			{{/each}}
 			</ul>
 		</div>
@@ -14,11 +14,11 @@
 <template name="ideaItem">
    	<li>
    		{{#if children}}
-   			<span class="toggle glyphicon glyphicon-chevron-right" data-behavior="expand-idea" data-id="{{_id}}" data-root-id="{{root_id}}"></span>
+   			<span class="toggle glyphicon glyphicon-chevron-right" data-behavior="expand-idea" data-id="{{_id}}"></span>
    		{{else}}
    			<div class="no-toggle"></div>
    		{{/if}}
-   		<span class="idea-name" data-behavior="add-idea" data-id="{{_id}}" data-root-id="{{root_id}}">{{title}}</span>
+   		<span class="idea-name" data-behavior="add-idea" data-id="{{_id}}">{{title}}</span>
    		<ul class="children" {{#unless show_children _id}}style="display:none;"{{/unless}}>{{> children}}</ul>
    	</li>
 </template>

@@ -34,6 +34,7 @@ define('ideaListView', ['_Idea'], function(Idea) {
         })
         .on('expand_idea.idea_list', function(e, objectId) {
             jQuery(e.target).siblings('ul').slideDown();
+            // Purge that cache
             delete ideaListView.opened_cache;
             Meteor.call('userRecordOpenedIdea', objectId);
         })
@@ -124,7 +125,6 @@ define('ideaListView', ['_Idea'], function(Idea) {
             is_idea_opened: function(objectId) {
                 if (!this.opened_cache) {
                     this.opened_cache = Meteor.user().ideas.opened;
-                    console.log(this.opened_cache);
                 }
 
                 return this.opened_cache.indexOf(objectId) !== -1;
@@ -134,11 +134,10 @@ define('ideaListView', ['_Idea'], function(Idea) {
         };
     }());
 
+    // Template helpers
+
     Template.ideaList.helpers({
         root_ideas: ideaListView.get_root_ideas.bind(ideaListView)
-        ,root_id: function() {
-            return _.extend({root_id: this.root_id || this._id}, this);
-        }
     });
 
     Template.ideaItem.helpers({
