@@ -34,6 +34,10 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             if (0 === objectId) {
                 ideaListView.add_root(idea_title);
             } else {
+                // Auto open children
+                $this.trigger('expand_idea', objectId);
+
+                // Add child
                 ideaListView.add_child(objectId, idea_title);
             }
 
@@ -41,9 +45,12 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
         })
         .on('expand_idea.idea_list', function(e, objectId) {
             jQuery(e.target).siblings('ul').slideDown();
+
+            Meteor.call('userRecordOpenedIdea', objectId);
+
             // Purge that cache
             delete ideaListView.opened_cache;
-            Meteor.call('userRecordOpenedIdea', objectId);
+            ideaListView.should_open = objectId;
         })
         .on('delete_idea.idea_list', function(e, objectId) {
             ideaListView.remove_idea(objectId);
@@ -158,7 +165,8 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
                     this.opened_cache = Meteor.user().ideas.opened;
                 }
 
-                return this.opened_cache.indexOf(objectId) !== -1;
+                // TODO: The second part of this if shouldn't be here, but for some reason grabbing the user after a child was added wasn't pulling the latest data
+                return this.opened_cache.indexOf(objectId) !== -1 || this.should_open == objectId;
             },
 
             is_my_idea: function(owner) {
