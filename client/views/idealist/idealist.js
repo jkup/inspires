@@ -14,6 +14,11 @@ define('ideaListView', ['_Idea'], function(Idea) {
             var $this = jQuery(this);
             $this.trigger('expand_idea', $this.data('id'));
         })
+        .on('click', '[data-behavior~=delete-idea]', function() {
+            var $this = jQuery(this);
+            $this.trigger('delete_idea', $this.data('id'));
+        })
+
 
         // Setup custom events
         .on('add_idea.idea_list', function(e) {
@@ -37,6 +42,10 @@ define('ideaListView', ['_Idea'], function(Idea) {
             // Purge that cache
             delete ideaListView.opened_cache;
             Meteor.call('userRecordOpenedIdea', objectId);
+        })
+        .on('delete_idea.idea_list', function(e, objectId) {
+            var path = ideaListView.get_path_to_object(objectId);
+            Meteor.call('ideaDeleteIdea', objectId, path);
         })
         ;
 
@@ -67,21 +76,27 @@ define('ideaListView', ['_Idea'], function(Idea) {
 
             build_paths_recursively: function() {
                 var args = _.extend([
-                    null, // idea
-                    (arguments[0] ? arguments[0]._id : null), // root_id
-                    0, // depth
-                    'children' // push_path
-                    ], arguments);
+                        null // idea
+                        ,(arguments[0] ? arguments[0]._id : null) // root_id
+                        ,0 // depth
+                        ,'children' // push_path
+                        ,'children' // remove_path
+                        ], arguments)
+                    , select_path = 'children.'.repeat(args[2] + 1)
+                ;
 
                 // Add root path
                 paths[args[0]._id] = {
                     depth: args[2]
                     ,root_id: args[1]
+                    ,select_path: select_path.substring(0, select_path.length -1)
                     ,push_path: args[3]
+                    ,remove_path: args[4]
                 };
+                console.log(paths);
 
                 for (var i = 0; i < args[0].children.length; i++) {
-                    this.build_paths_recursively(args[0].children[i], args[1], args[2] + 1, args[3] + '.' + i + '.children');
+                    this.build_paths_recursively(args[0].children[i], args[1], args[2] + 1, args[3] + '.' + i + '.children', args[3]);
                 };
             },
 
@@ -130,6 +145,10 @@ define('ideaListView', ['_Idea'], function(Idea) {
                 return this.opened_cache.indexOf(objectId) !== -1;
             },
 
+            is_my_idea: function(owner) {
+                return Meteor.user()._id === owner;
+            },
+
             initialize: function() {}
         };
     }());
@@ -142,5 +161,7 @@ define('ideaListView', ['_Idea'], function(Idea) {
 
     Template.ideaItem.helpers({
         show_children: ideaListView.is_idea_opened.bind(ideaListView)
+        ,ownsIdea: function() { return ideaListView.is_my_idea(this.owner) }
     });
+    return ideaListView;
 });

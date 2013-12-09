@@ -19,6 +19,9 @@
    			<div class="no-toggle"></div>
    		{{/if}}
    		<span class="idea-name" data-behavior="add-idea" data-id="{{_id}}">{{title}}</span>
+      {{#if ownsIdea}}
+        <span class="delete" data-behavior="delete-idea" data-id="{{_id}}">[- Delete -]</span>
+      {{/if}}
    		<ul class="children" {{#unless show_children _id}}style="display:none;"{{/unless}}>{{> children}}</ul>
    	</li>
 </template>
