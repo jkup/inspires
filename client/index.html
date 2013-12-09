@@ -3,7 +3,6 @@
 </head>
 
 <body>
-    {{> errors}}
     <header class="wrapper">
 		<div class="row">
 			<div class="col-md-10"><h1>Idea List</h1></div>
@@ -11,6 +10,7 @@
 		</div>
 	</header>
 
+    {{> notifications}}
     {{#if currentUser}}
         {{> ideaList}}
     {{else}}

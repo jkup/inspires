@@ -1,4 +1,4 @@
-define('ideaListView', ['_Idea'], function(Idea) {
+define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea) {
     String.prototype.repeat = function(num) {
         return new Array(num + 1).join(this);
     }
@@ -31,6 +31,8 @@ define('ideaListView', ['_Idea'], function(Idea) {
             } else {
                 ideaListView.add_child(objectId, idea_title);
             }
+
+            nHelper.notify('Idea added', nHelper.SUCCESS);
         })
         .on('expand_idea.idea_list', function(e, objectId) {
             jQuery(e.target).siblings('ul').slideDown();
