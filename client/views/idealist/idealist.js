@@ -7,8 +7,11 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
     jQuery(document)
 
         // Setup DOM listeners
-        .on('click', '[data-behavior~=add-idea]', function() {
-            jQuery(this).trigger('add_idea');
+        .on('submit', '[data-behavior~=add-idea]', function(e) {
+            var $this = jQuery(this);
+            e.preventDefault();
+
+            $this.trigger('add_idea', [$this.data('id'), $this.find('input:first').val()]);
         })
         .on('click', '[data-behavior~=expand-idea]', function() {
             var $this = jQuery(this)
@@ -48,12 +51,7 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
         })
 
         // Setup custom events
-        .on('add_idea.idea_list', function(e) {
-            var idea_title = prompt('Idea title:')
-                ,$this = jQuery(e.target)
-                ,objectId = $this.data('id')
-                ;
-
+        .on('add_idea.idea_list', function(e, objectId, idea_title) {
             // If no input from user
             if (!idea_title) return;
 
@@ -62,7 +60,7 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
                 ideaListView.add_root(idea_title);
             } else {
                 // Auto open children
-                $this.trigger('expand_idea', objectId);
+                jQuery(this).trigger('expand_idea', objectId);
 
                 // Add child
                 ideaListView.add_child(objectId, idea_title);
@@ -221,6 +219,23 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
 
     // Template helpers
 
+    Template.ideaList.rendered = function() {
+        jQuery('[data-behavior~=show-add-idea-form]').each(function(){
+            var $this = jQuery(this);
+            $this.popover({
+                placement: 'auto top'
+                ,container: '.idea-name[data-id~=' + $this.data('id') + ']'
+                ,html: true
+                ,content: Template.newIdea({
+                    object_id: $this.data('id')
+                })
+            })
+            .on('shown.bs.popover', function() {
+                jQuery('.form[data-id~=' + $this.data('id') + ']:visible input').focus();
+            });
+        });
+    };
+
     Template.ideaList.helpers({
         root_ideas: ideaListView.get_root_ideas.bind(ideaListView)
     });
@@ -232,5 +247,6 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
     Template.options.helpers({
         ownsIdea: function() { return ideaListView.is_my_idea(this.owner) }
     });
+
     return ideaListView;
 });

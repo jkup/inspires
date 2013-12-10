@@ -1,7 +1,7 @@
 <template name="ideaList">
 	<div class="wrapper">
 		<div class="row">
-      <button type="button" class="btn btn-primary" data-behavior="add-idea" data-id="0">Add {{#if root_ideas}} new Ideas{{else}}Idea{{/if}}</button>
+      <button type="button" class="btn btn-primary" data-behavior="show-add-idea-form" data-id="0">Add {{#if root_ideas}} new Ideas{{else}}Idea{{/if}}</button>
 			<ul class="idea-list">
 			{{#each root_ideas}}
 				{{> ideaItem}}
@@ -13,7 +13,7 @@
 
 <template name="ideaItem">
    	<li>
-   		<div class="idea-name">
+   		<div class="idea-name" data-id="{{_id}}">
         {{title}}
         {{> options }}
       </div>
@@ -22,46 +22,49 @@
 </template>
 
 <template name="children">
-	{{#each children}}
-		{{> ideaItem}}
-	{{/each}}
+    {{#each children}}
+        {{> ideaItem}}
+    {{/each}}
 </template>
 
 <template name="newIdea">
-  <form class="form" data-object-id="{object_id}">
-  	<input type="text" />
-  	<input type="submit" name="Add" />
-  </form>
+    <form class="form new-idea" data-id="{{object_id}}" data-behavior="add-idea" role="form">
+        <label>Add sub idea</label>
+        <div class="input-group">
+            <input class="form-control" type="text" placeholder="Idea name" />
+            <span class="input-group-btn">
+                <button class="btn btn-primary" type="submit">Add!</button>
+            </span>
+        </div>
+    </form>
 </template>
 
 <template name="options">
-  <div class="options">
+    <div class="options">
+        <button type="button" class="btn btn-default btn-sm disabled">{{votes.up}}</button>
 
-    <button type="button" class="btn btn-default btn-sm disabled">{{votes.up}}</button>
+        <button type="button" class="btn btn-default btn-sm" data-behavior="vote-up" data-id="{{_id}}" title="Vote Up">
+            <span class="glyphicon glyphicon-thumbs-up"></span>
+        </button>
 
-    <button type="button" class="btn btn-default btn-sm" data-behavior="vote-up" data-id="{{_id}}" title="Vote Up">
-      <span class="glyphicon glyphicon-thumbs-up"></span>
-    </button>
+        <button type="button" class="btn btn-default btn-sm" data-behavior="vote-down" data-id="{{_id}}" title="Vote Down">
+          <span class="glyphicon glyphicon-thumbs-down"></span>
+        </button>
 
-    <button type="button" class="btn btn-default btn-sm" data-behavior="vote-down" data-id="{{_id}}" title="Vote Down">
-      <span class="glyphicon glyphicon-thumbs-down"></span>
-    </button>
+        {{#if children}}
+        <button type="button" class="btn btn-default btn-sm" data-behavior="{{#if show_children _id}}collapse-idea{{else}}expand-idea{{/if}}" data-id="{{_id}}">
+            <span class="glyphicon {{#if show_children _id}}glyphicon-chevron-down{{else}}glyphicon-chevron-right{{/if}}"></span>
+        </button>
+        {{/if}}
 
-    {{#if children}}
-      <button type="button" class="btn btn-default btn-sm" data-behavior="{{#if show_children _id}}collapse-idea{{else}}expand-idea{{/if}}" data-id="{{_id}}">
-        <span class="glyphicon {{#if show_children _id}}glyphicon-chevron-down{{else}}glyphicon-chevron-right{{/if}}"></span>
-      </button>
-    {{/if}}
+        {{#if ownsIdea}}
+        <button type="button" class="btn btn-default btn-sm" data-behavior="delete-idea" data-id="{{_id}}">
+            <span class="glyphicon glyphicon-remove"></span>
+        </button>
+        {{/if}}
 
-    {{#if ownsIdea}}
-      <button type="button" class="btn btn-default btn-sm" data-behavior="delete-idea" data-id="{{_id}}">
-        <span class="glyphicon glyphicon-remove"></span>
-      </button>
-    {{/if}}
-
-    <button type="button" class="btn btn-default btn-sm" data-behavior="add-idea" data-id="{{_id}}">
-      <span class="glyphicon glyphicon-plus"></span>
-    </button>
-
-  </div>
+        <button type="button" class="btn btn-default btn-sm" data-behavior="show-add-idea-form" data-id="{{_id}}">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+    </div>
 </template>
