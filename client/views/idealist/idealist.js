@@ -11,8 +11,28 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             jQuery(this).trigger('add_idea');
         })
         .on('click', '[data-behavior~=expand-idea]', function() {
-            var $this = jQuery(this);
+            var $this = jQuery(this)
+                ,behaviors = $this.data('behavior').split(' ')
+                ;
+
+            // Remove expand-idea from behaviors and add collapse-idea
+            behaviors.splice(behaviors.indexOf('expand-idea'), 1);
+            behaviors.push('collapse-idea');
+            $this.attr({'data-behavior': behaviors.join(' ')});
+
             $this.trigger('expand_idea', $this.data('id'));
+        })
+        .on('click', '[data-behavior~=collapse-idea]', function() {
+            var $this = jQuery(this)
+                ,behaviors = $this.data('behavior').split(' ')
+                ;
+
+            // Remove collapse-idea from behaviors and add expand-idea
+            behaviors.splice(behaviors.indexOf('collapse-idea'), 1);
+            behaviors.push('expand-idea');
+            $this.attr({'data-behavior': behaviors.join(' ')});
+
+            $this.trigger('collapse_idea', $this.data('id'));
         })
         .on('click', '[data-behavior~=delete-idea]', function() {
             var $this = jQuery(this);
@@ -51,6 +71,15 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             // Purge that cache
             delete ideaListView.opened_cache;
             ideaListView.should_open = objectId;
+        })
+        .on('collapse_idea.idea_list', function(e, objectId) {
+            jQuery(e.target).siblings('ul').slideUp();
+
+            Meteor.call('userPluckOpenedIdea', objectId);
+
+            // Purge that cache
+            delete ideaListView.opened_cache;
+            ideaListView.should_not_open = objectId;
         })
         .on('delete_idea.idea_list', function(e, objectId) {
             ideaListView.remove_idea(objectId);
@@ -166,7 +195,7 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
                 }
 
                 // TODO: The second part of this if shouldn't be here, but for some reason grabbing the user after a child was added wasn't pulling the latest data
-                return this.opened_cache.indexOf(objectId) !== -1 || this.should_open == objectId;
+                return (this.opened_cache.indexOf(objectId) !== -1 || this.should_open == objectId) && this.should_not_open !== objectId;
             },
 
             is_my_idea: function(owner) {
