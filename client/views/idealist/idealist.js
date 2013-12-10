@@ -38,7 +38,14 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             var $this = jQuery(this);
             $this.trigger('delete_idea', $this.data('id'));
         })
-
+        .on('click', '[data-behavior~=vote-up]', function() {
+            var $this = jQuery(this);
+            $this.trigger('vote', ['up', $this.data('id')]);
+        })
+        .on('click', '[data-behavior~=vote-down]', function() {
+            var $this = jQuery(this);
+            $this.trigger('vote', ['down', $this.data('id')]);
+        })
 
         // Setup custom events
         .on('add_idea.idea_list', function(e) {
@@ -83,6 +90,12 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
         })
         .on('delete_idea.idea_list', function(e, objectId) {
             ideaListView.remove_idea(objectId);
+        })
+        .on('vote.idea_list', function(e, vote, objectId) {
+            var path = ideaListView.get_path_to_object(objectId);
+            // Purge that cache
+            delete ideaListView.opened_cache;
+            Meteor.call('ideaVote', vote, objectId);
         })
         ;
 

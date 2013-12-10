@@ -5,9 +5,6 @@
 body {
 	background: #FFF;
 }
-.glyphicon:empty {
-  width: 3em;
-}
 .wrapper {
 	background: #FFF;
 	width: 80%;
@@ -23,27 +20,17 @@ body {
 	font-weight: 500;
 	-webkit-font-smoothing: antialiased;
 }
+.idea-name:hover .options {
+	display: block;
+}
 ul{
 	counter-reset: li; /* Initiate a counter */
 	list-style: none; /* Remove default numbering */
 	*list-style: decimal; /* Keep using default numbering for IE6/7 */
 	font: 15px 'trebuchet MS', 'lucida sans';
-	padding: 0;
-	margin-bottom: 4em;
 	text-shadow: 0 1px 0 rgba(255,255,255,.5);
-}
-
-ul ul {
 	margin: 0 0 0 2em; /* Add some left margin for inner lists */
 	padding: 0 0 0 2em; /* Add some left margin for inner lists */
-}
-ul ul ul {
-	margin: 0 0 0 4em; /* Add some left margin for inner lists */
-	padding: 0 0 0 4em; /* Add some left margin for inner lists */
-}
-ul ul ul ul {
-	margin: 0 0 0 8em; /* Add some left margin for inner lists */
-	padding: 0 0 0 8em; /* Add some left margin for inner lists */
 }
 .idea-list li .idea-name {
 	position: relative;
@@ -61,40 +48,6 @@ ul ul ul ul {
 .idea-list li .idea-name:hover{
 	background: #eee;
 }
-
-.idea-list li .idea-name:hover:before{
-    transform: rotate(360deg);
-}
-
-.idea-list li .idea-name:before{
-	content: '+';
-	position: absolute;
-	left: -1.3em;
-	top: 50%;
-	margin-top: -1.3em;
-	background: #87ceeb;
-	height: 3em;
-	width: 3em;
-	line-height: 2.5em;
-	border: .3em solid #fff;
-	text-align: center;
-	font-weight: bold;
-	border-radius: 2em;
-	transition: all .3s ease-out;
-}
-.toggle {
-	top: 6px;
-	margin-right: 25px;
-	background: #fa8072;
-	height: 2.5em;
-	line-height: 2.5em;
-	text-align: center;
-	font-weight: bold;
-	color: #444;
-	border: 2px solid #ddd;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
-}
 .no-toggle {
 	width: 74px;
 	float: left;
@@ -102,4 +55,16 @@ ul ul ul ul {
 }
 .delete {
 	cursor: pointer;
+	color: red;
+	position: absolute;
+	top: -9px;
+	right: -69px;
+	font-size: 30px;
+}
+.options {
+	float: right;
+	top: 0;
+	right: 10px;
+	display: none;
+	position: absolute;
 }

@@ -28,5 +28,9 @@ Meteor.methods({
         } else {
            Ideas.update(select, {$pull: update});
         }
+    },
+
+    ideaVote: function (vote, path) {
+        //votes logic goes here
     }
 });
