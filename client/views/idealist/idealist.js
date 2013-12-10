@@ -212,6 +212,7 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             },
 
             is_my_idea: function(owner) {
+                console.log('harro');
                 return Meteor.user()._id === owner;
             },
 
@@ -227,7 +228,10 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
 
     Template.ideaItem.helpers({
         show_children: ideaListView.is_idea_opened.bind(ideaListView)
-        ,ownsIdea: function() { return ideaListView.is_my_idea(this.owner) }
+    });
+
+    Template.options.helpers({
+        ownsIdea: function() { return ideaListView.is_my_idea(this.owner) }
     });
     return ideaListView;
 });

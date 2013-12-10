@@ -2,7 +2,6 @@
 	<div class="wrapper">
 		<div class="row">
       <button type="button" class="btn btn-primary" data-behavior="add-idea" data-id="0">Add {{#if root_ideas}} new Ideas{{else}}Idea{{/if}}</button>
-			<span ></span>
 			<ul class="idea-list">
 			{{#each root_ideas}}
 				{{> ideaItem}}
@@ -14,10 +13,10 @@
 
 <template name="ideaItem">
    	<li>
-   		<span class="idea-name">
+   		<div class="idea-name">
         {{title}}
         {{> options }}
-      </span>
+      </div>
    		<ul class="children" {{#unless show_children _id}}style="display:none;"{{/unless}}>{{> children}}</ul>
    	</li>
 </template>
@@ -37,13 +36,14 @@
 
 <template name="options">
   <div class="options">
-    <button type="button" class="btn btn-default btn-sm" data-behavior="vote-up" data-id="{{_id}}">
-      <span class="glyphicon glyphicon-thumbs-up"></span>
-    </button>
 
     <button type="button" class="btn btn-default btn-sm disabled">{{votes.up}}</button>
 
-    <button type="button" class="btn btn-default btn-sm" data-behavior="vote-down" data-id="{{_id}}">
+    <button type="button" class="btn btn-default btn-sm" data-behavior="vote-up" data-id="{{_id}}" title="Vote Up">
+      <span class="glyphicon glyphicon-thumbs-up"></span>
+    </button>
+
+    <button type="button" class="btn btn-default btn-sm" data-behavior="vote-down" data-id="{{_id}}" title="Vote Down">
       <span class="glyphicon glyphicon-thumbs-down"></span>
     </button>
 
@@ -55,7 +55,7 @@
 
     {{#if ownsIdea}}
       <button type="button" class="btn btn-default btn-sm" data-behavior="delete-idea" data-id="{{_id}}">
-        <span class="glyphicon glyphicon-remove delete"></span>
+        <span class="glyphicon glyphicon-remove"></span>
       </button>
     {{/if}}
 

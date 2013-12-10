@@ -14,8 +14,8 @@ body {
 .idea-name {
 	display: inline-block;
 	width: 80%;
-	min-height: 50px;
-	line-height: 50px;
+	min-height: 30px;
+	line-height: 30px;
 	background: #DDDDDD;
 	font-weight: 500;
 	-webkit-font-smoothing: antialiased;
@@ -37,7 +37,7 @@ ul{
 	display: inline-block;
 	padding: .4em .4em .4em 2em;
 	*padding: .4em;
-	margin: .5em 0;
+	margin: .25em 0;
 	background: #ddd;
 	color: #444;
 	text-decoration: none;
@@ -53,17 +53,9 @@ ul{
 	float: left;
 	height: 1px;
 }
-.delete {
-	cursor: pointer;
-	color: red;
-	position: absolute;
-	top: -9px;
-	right: -69px;
-	font-size: 30px;
-}
 .options {
 	float: right;
-	top: 0;
+	top: 5px;
 	right: 10px;
 	display: none;
 	position: absolute;
