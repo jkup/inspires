@@ -9,5 +9,5 @@ preserve-inputs
 meteor-smd
 smart-collections
 accounts-twitter
-accounts-ui
 accounts-facebook
+accounts-ui-unstyled
