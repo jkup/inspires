@@ -13,11 +13,13 @@
 
 <template name="ideaItem">
     <li>
-        <div class="idea-name" data-id="{{_id}}">
+        <div class="idea-name" data-behavior="{{#if show_children _id}}collapse-idea{{else}}expand-idea{{/if}}" data-id="{{_id}}">
             {{title}}
             {{> options }}
         </div>
-        <ul class="children" {{#unless show_children _id}}style="display:none;"{{/unless}}>{{> children}}</ul>
+        <ul class="children" {{#unless show_children _id}}style="display:none;"{{/unless}}>
+            {{> children}}
+        </ul>
     </li>
 </template>
 

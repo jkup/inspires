@@ -69,22 +69,16 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             nHelper.notify('Idea added', {type: nHelper.SUCCESS, auto_dismiss: true});
         })
         .on('expand_idea.idea_list', function(e, objectId) {
-            jQuery(e.target).siblings('ul').slideDown();
-
             Meteor.call('userRecordOpenedIdea', objectId);
 
-            // Purge that cache
-            delete ideaListView.opened_cache;
-            ideaListView.should_open = objectId;
+            // Push the item into the cache
+            ideaListView.opened_cache.push(objectId);
         })
         .on('collapse_idea.idea_list', function(e, objectId) {
-            jQuery(e.target).siblings('ul').slideUp();
-
             Meteor.call('userPluckOpenedIdea', objectId);
 
-            // Purge that cache
-            delete ideaListView.opened_cache;
-            ideaListView.should_not_open = objectId;
+            // Pluck the item out of the cache
+            ideaListView.opened_cache.splice(ideaListView.opened_cache.indexOf(objectId), 1);
         })
         .on('delete_idea.idea_list', function(e, objectId) {
             ideaListView.remove_idea(objectId);
