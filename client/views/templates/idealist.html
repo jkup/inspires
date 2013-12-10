@@ -1,24 +1,24 @@
 <template name="ideaList">
-	<div class="wrapper">
-		<div class="row">
-      <button type="button" class="btn btn-primary" data-behavior="show-add-idea-form" data-id="0">Add {{#if root_ideas}} new Ideas{{else}}Idea{{/if}}</button>
-			<ul class="idea-list">
-			{{#each root_ideas}}
-				{{> ideaItem}}
-			{{/each}}
-			</ul>
-		</div>
-	</div>
+    <div class="wrapper">
+        <div class="row">
+            <button type="button" class="btn btn-primary" data-behavior="show-add-idea-form" data-id="0">Add {{#if root_ideas}} new Ideas{{else}}Idea{{/if}}</button>
+            <ul class="idea-list">
+            {{#each root_ideas}}
+                {{> ideaItem}}
+            {{/each}}
+            </ul>
+        </div>
+    </div>
 </template>
 
 <template name="ideaItem">
-   	<li>
-   		<div class="idea-name" data-id="{{_id}}">
-        {{title}}
-        {{> options }}
-      </div>
-   		<ul class="children" {{#unless show_children _id}}style="display:none;"{{/unless}}>{{> children}}</ul>
-   	</li>
+    <li>
+        <div class="idea-name" data-id="{{_id}}">
+            {{title}}
+            {{> options }}
+        </div>
+        <ul class="children" {{#unless show_children _id}}style="display:none;"{{/unless}}>{{> children}}</ul>
+    </li>
 </template>
 
 <template name="children">
