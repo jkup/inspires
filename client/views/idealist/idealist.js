@@ -212,7 +212,6 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             },
 
             is_my_idea: function(owner) {
-                console.log('harro');
                 return Meteor.user()._id === owner;
             },
 
