@@ -43,6 +43,7 @@
 
 <template name="options">
     <div class="options">
+<!--
         <button type="button" class="btn btn-default btn-sm disabled">{{votes.up}}</button>
 
         <button type="button" class="btn btn-default btn-sm" data-behavior="vote-up" data-id="{{_id}}" title="Vote Up">
@@ -58,7 +59,7 @@
             <span class="glyphicon {{#if show_children _id}}glyphicon-chevron-down{{else}}glyphicon-chevron-right{{/if}}"></span>
         </button>
         {{/if}}
-
+-->
         {{#if ownsIdea}}
         <button type="button" class="btn btn-default btn-sm" data-behavior="delete-idea" data-id="{{_id}}">
             <span class="glyphicon glyphicon-remove"></span>
