@@ -3,6 +3,8 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
         return new Array(num + 1).join(this);
     }
 
+    var add_root_button = jQuery('[data-id=0][data-behavior~=show-add-idea-form]');
+
     // Outer most selector
     jQuery(document)
 
@@ -58,6 +60,7 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             // See if we are adding a root idea or child idea
             if (0 === objectId) {
                 ideaListView.add_root(idea_title);
+                add_root_button.popover('hide');
             } else {
                 // Auto open children
                 jQuery(this).trigger('expand_idea', objectId);
@@ -215,19 +218,26 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
 
     Template.ideaList.rendered = function() {
         jQuery('[data-behavior~=show-add-idea-form]').each(function(){
-            var $this = jQuery(this);
+            var $this = jQuery(this)
+                objectId = $this.data('id')
+                ;
             $this.popover({
                 placement: 'auto top'
-                ,container: '.idea-name[data-id~=' + $this.data('id') + ']'
+                ,container: objectId ? '.idea-name[data-id~=' + objectId + ']' : false
                 ,html: true
                 ,content: Template.newIdea({
                     object_id: $this.data('id')
                 })
             })
             .on('shown.bs.popover', function() {
-                jQuery('.form[data-id~=' + $this.data('id') + ']:visible input').focus();
-            });
-        });
+                jQuery('.form[data-id~=' + objectId + ']:visible input').focus();
+            })
+            ;
+        })
+        .on('click', function(e) {
+            e.stopPropagation();
+        })
+        ;
     };
 
     Template.ideaList.helpers({
