@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # IP or URL of the server you want to deploy to
-APP_HOST=harvest.rafaelcorral.com
+APP_HOST=inspires.io
 
 # Uncomment this if your host is an EC2 instance
 # EC2_PEM_FILE=path/to/your/file.pem

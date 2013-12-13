@@ -11,16 +11,19 @@ body {
 	padding: 25px;
 	margin: 0 auto;
 }
+.name-options-wrapper {
+	position: relative;
+}
 .idea-name {
 	display: inline-block;
-	width: 80%;
+	width: 100%;
 	min-height: 30px;
 	line-height: 30px;
 	background: #DDDDDD;
 	font-weight: 500;
 	-webkit-font-smoothing: antialiased;
 }
-.idea-name:hover .options {
+.idea-name:hover + .options {
 	display: block;
 }
 ul{
@@ -55,10 +58,13 @@ ul{
 }
 .options {
 	float: right;
-	top: 5px;
+	top: 11px;
 	right: 10px;
 	display: none;
 	position: absolute;
+}
+.options:hover {
+	display: block;
 }
 
 form.new-idea {

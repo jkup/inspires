@@ -13,8 +13,16 @@
 
 <template name="ideaItem">
     <li>
-        <div class="idea-name" data-behavior="{{#if show_children _id}}collapse-idea{{else}}expand-idea{{/if}}" data-id="{{_id}}">
-            {{title}}
+        <div class="name-options-wrapper">
+            <div class="idea-name" data-behavior="{{#if show_children _id}}collapse-idea{{else}}expand-idea{{/if}}" data-id="{{_id}}">
+                {{#if children}}
+                <button type="button" class="btn btn-default btn-sm" data-behavior="{{#if show_children _id}}collapse-idea{{else}}expand-idea{{/if}}" data-id="{{_id}}">
+                    <span class="glyphicon {{#if show_children _id}}glyphicon-chevron-down{{else}}glyphicon-chevron-right{{/if}}"></span>
+                </button>
+                {{/if}}
+
+                {{title}}
+            </div>
             {{> options }}
         </div>
         <ul class="children" {{#unless show_children _id}}style="display:none;"{{/unless}}>
@@ -54,16 +62,13 @@
           <span class="glyphicon glyphicon-thumbs-down"></span>
         </button>
 
-        {{#if children}}
-        <button type="button" class="btn btn-default btn-sm" data-behavior="{{#if show_children _id}}collapse-idea{{else}}expand-idea{{/if}}" data-id="{{_id}}">
-            <span class="glyphicon {{#if show_children _id}}glyphicon-chevron-down{{else}}glyphicon-chevron-right{{/if}}"></span>
-        </button>
-        {{/if}}
 -->
         {{#if ownsIdea}}
+        {{#unless children}}
         <button type="button" class="btn btn-default btn-sm" data-behavior="delete-idea" data-id="{{_id}}">
             <span class="glyphicon glyphicon-remove"></span>
         </button>
+        {{/unless}}
         {{/if}}
 
         <button type="button" class="btn btn-default btn-sm" data-behavior="show-add-idea-form" data-id="{{_id}}">

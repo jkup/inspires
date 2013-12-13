@@ -219,7 +219,7 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
     Template.ideaList.rendered = function() {
         jQuery('[data-behavior~=show-add-idea-form]').each(function(){
             var $this = jQuery(this)
-                objectId = $this.data('id')
+                ,objectId = $this.data('id')
                 ;
             $this.popover({
                 placement: 'auto top'
@@ -233,11 +233,7 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
                 jQuery('.form[data-id~=' + objectId + ']:visible input').focus();
             })
             ;
-        })
-        .on('click', function(e) {
-            e.stopPropagation();
-        })
-        ;
+        });
     };
 
     Template.ideaList.helpers({
