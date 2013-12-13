@@ -12,6 +12,7 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
         .on('submit', '[data-behavior~=add-idea]', function(e) {
             var $this = jQuery(this);
             e.preventDefault();
+            $('[data-behavior~=show-add-idea-form]').popover('hide');
 
             $this.trigger('add_idea', [$this.data('id'), $this.find('input:first').val()]);
         })
