@@ -13,7 +13,7 @@
 
 <template name="ideaItem">
     <li>
-        <div class="name-options-wrapper">
+        <div class="name-options-wrapper" data-id="{{_id}}">
             <div class="idea-name" data-behavior="{{#if show_children _id}}collapse-idea{{else}}expand-idea{{/if}}" data-id="{{_id}}">
                 {{#if children}}
                 <button type="button" class="btn btn-default btn-sm" data-behavior="{{#if show_children _id}}collapse-idea{{else}}expand-idea{{/if}}" data-id="{{_id}}">

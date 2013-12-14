@@ -3,8 +3,6 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
         return new Array(num + 1).join(this);
     }
 
-    var add_root_button = jQuery('[data-id=0][data-behavior~=show-add-idea-form]');
-
     // Outer most selector
     jQuery(document)
 
@@ -12,7 +10,6 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
         .on('submit', '[data-behavior~=add-idea]', function(e) {
             var $this = jQuery(this);
             e.preventDefault();
-            $('[data-behavior~=show-add-idea-form]').popover('hide');
 
             $this.trigger('add_idea', [$this.data('id'), $this.find('input:first').val()]);
         })
@@ -61,7 +58,6 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             // See if we are adding a root idea or child idea
             if (0 === objectId) {
                 ideaListView.add_root(idea_title);
-                add_root_button.popover('hide');
             } else {
                 // Auto open children
                 jQuery(this).trigger('expand_idea', objectId);
@@ -70,6 +66,7 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
                 ideaListView.add_child(objectId, idea_title);
             }
 
+            this.$new_idea_btns.popover('hide');
             nHelper.notify('Idea added', {type: nHelper.SUCCESS, auto_dismiss: true});
         })
         .on('expand_idea.idea_list', function(e, objectId) {
@@ -121,6 +118,7 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             },
 
             build_paths_recursively: function() {
+                // Parse arguments
                 var args = _.extend([
                         null // idea
                         ,(arguments[0] ? arguments[0]._id : null) // root_id
@@ -132,7 +130,7 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
                     ,select_path = 'children.'.repeat(args[2])
                 ;
 
-                // Add root path
+                // Add to paths cache
                 paths[args[0]._id] = {
                     depth: args[2]
                     ,root_id: args[1]
@@ -141,6 +139,7 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
                     ,remove_path: args[4]
                 };
 
+                // Go through its children
                 for (var i = 0; i < args[0].children.length; i++) {
                     this.build_paths_recursively(
                         args[0].children[i] // Idea
@@ -211,31 +210,33 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
                 return Meteor.user()._id === owner;
             },
 
-            initialize: function() {}
+            initialize: function() {
+                this.$new_idea_btns = jQuery('[data-behavior~=show-add-idea-form]');
+                this.$new_idea_btns.each(function(){
+                    var $this = jQuery(this)
+                        ,objectId = $this.data('id')
+                        ;
+
+                    $this.popover({
+                        placement: 'auto top'
+                        ,container: objectId ? '.name-options-wrapper[data-id~=' + objectId + ']' : false
+                        ,html: true
+                        ,content: Template.newIdea({
+                            object_id: $this.data('id')
+                        })
+                    })
+                    .on('shown.bs.popover', function() {
+                        jQuery('.form[data-id~=' + objectId + ']:visible input').focus();
+                    })
+                    ;
+                });
+            }
         };
     }());
 
     // Template helpers
 
-    Template.ideaList.rendered = function() {
-        jQuery('[data-behavior~=show-add-idea-form]').each(function(){
-            var $this = jQuery(this)
-                ,objectId = $this.data('id')
-                ;
-            $this.popover({
-                placement: 'auto top'
-                ,container: objectId ? '.idea-name[data-id~=' + objectId + ']' : false
-                ,html: true
-                ,content: Template.newIdea({
-                    object_id: $this.data('id')
-                })
-            })
-            .on('shown.bs.popover', function() {
-                jQuery('.form[data-id~=' + objectId + ']:visible input').focus();
-            })
-            ;
-        });
-    };
+    Template.ideaList.rendered = ideaListView.initialize.bind(ideaListView);
 
     Template.ideaList.helpers({
         root_ideas: ideaListView.get_root_ideas.bind(ideaListView)
