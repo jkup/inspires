@@ -310,7 +310,7 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
 
     Template.options.helpers({
         ownsIdea: function() {
-            return ideaListView.is_my_idea(this.owner)
+            return ideaListView.is_my_idea(this.owner);
         }
         ,votes_average: function() {
             return this.votes.up - this.votes.down;
@@ -319,18 +319,22 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             var user = Meteor.user(), voted;
             if (!user) return false;
 
-            voted = user.ideas.voted[this._id];
-            if (voted && voted === 'up') {
-                return 'active'
+            if (user.ideas && user.ideas.voted) {
+                voted = user.ideas.voted[this._id];
+                if (voted && voted === 'up') {
+                    return 'active';
+                }
             }
         }
         ,down_vote_active: function() {
             var user = Meteor.user(), voted;
             if (!user) return false;
 
-            voted = user.ideas.voted[this._id];
-            if (voted && voted === 'down') {
-                return 'active'
+            if (user.ideas && user.ideas.voted) {
+                voted = user.ideas.voted[this._id];
+                if (voted && voted === 'down') {
+                    return 'active'
+                }
             }
         }
     });
