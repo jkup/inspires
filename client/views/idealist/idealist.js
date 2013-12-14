@@ -71,6 +71,9 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             ideaListView.$new_idea_btns.popover('hide');
             nHelper.notify('Idea added', {type: nHelper.SUCCESS, auto_dismiss: true});
         })
+        .on('delete_idea.idea_list', function(e, objectId) {
+            ideaListView.remove_idea(objectId);
+        })
         .on('expand_idea.idea_list', function(e, objectId) {
             Meteor.call('userRecordOpenedIdea', objectId);
 
@@ -82,9 +85,6 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
 
             // Pluck the item out of the cache
             ideaListView.opened_cache.splice(ideaListView.opened_cache.indexOf(objectId), 1);
-        })
-        .on('delete_idea.idea_list', function(e, objectId) {
-            ideaListView.remove_idea(objectId);
         })
         .on('vote.idea_list', function(e, vote, objectId) {
             var path = ideaListView.get_path_to_object(objectId);
@@ -98,13 +98,13 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
 
         return {
             get_root_ideas: function() {
-                var _ideas = Ideas.find()
+                var _ideas = Ideas.find().fetch()
                     ,that = this
                     ;
 
                 // Run in background
                 setTimeout(function() {
-                    var ideas = _ideas.fetch();
+                    var ideas = _ideas;
                     for (var i = 0; i < ideas.length; i++) {
                         that.build_paths_recursively(ideas[i]);
                     };
@@ -187,8 +187,6 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
                 var path = ideaListView.get_path_to_object(objectId);
                 // Delete
                 Meteor.call('ideaDelete', objectId, path);
-                // Update paths
-                ideaListView.build_paths_recursively(ideaListView.get_root_idea(path.root_id));
             }
 
             ,get_paths: function() {
