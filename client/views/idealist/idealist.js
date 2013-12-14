@@ -75,12 +75,24 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             ideaListView.remove_idea(objectId);
         })
         .on('expand_idea.idea_list', function(e, objectId) {
+            if (!Meteor.user()) {
+                var $target = jQuery(e.target);
+                $target.find('button span').removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down');
+                return jQuery('[data-children-for-id=' +$target.data('id')+ ']').slideDown();
+            }
+
             Meteor.call('userRecordOpenedIdea', objectId);
 
             // Push the item into the cache
             ideaListView.opened_cache.push(objectId);
         })
         .on('collapse_idea.idea_list', function(e, objectId) {
+            if (!Meteor.user()) {
+                var $target = jQuery(e.target);
+                $target.find('button span').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
+                return jQuery('[data-children-for-id=' +$target.data('id')+ ']').slideUp();
+            }
+
             Meteor.call('userPluckOpenedIdea', objectId);
 
             // Pluck the item out of the cache
@@ -236,8 +248,12 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             // User
 
             ,is_idea_opened: function(objectId) {
+                var user = Meteor.user();
+
+                if (!user) return false;
+
                 if (!this.opened_cache) {
-                    this.opened_cache = Meteor.user().ideas.opened;
+                    this.opened_cache = user.ideas.opened;
                 }
 
                 // TODO: The second part of this if shouldn't be here, but for some reason grabbing the user after a child was added wasn't pulling the latest data
@@ -245,7 +261,8 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             }
 
             ,is_my_idea: function(owner) {
-                return Meteor.user()._id === owner;
+                var user = Meteor.user();
+                return user && user._id === owner;
             }
 
             // Initialize
@@ -299,13 +316,19 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             return this.votes.up - this.votes.down;
         }
         ,up_vote_active: function() {
-            var voted = Meteor.user().ideas.voted[this._id];
+            var user = Meteor.user(), voted;
+            if (!user) return false;
+
+            voted = user.ideas.voted[this._id];
             if (voted && voted === 'up') {
                 return 'active'
             }
         }
         ,down_vote_active: function() {
-            var voted = Meteor.user().ideas.voted[this._id];
+            var user = Meteor.user(), voted;
+            if (!user) return false;
+
+            voted = user.ideas.voted[this._id];
             if (voted && voted === 'down') {
                 return 'active'
             }

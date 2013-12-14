@@ -1,12 +1,16 @@
 <template name="ideaList">
     <div class="wrapper">
         <div class="row">
-            <button type="button" class="btn btn-primary" data-behavior="show-add-idea-form" data-id="0">Add {{#if root_ideas}} new Ideas{{else}}Idea{{/if}}</button>
-            <ul class="idea-list" {{#if root_ideas}}data-sortable="votes"{{/if}}>
-            {{#each root_ideas}}
-                {{> ideaItem}}
-            {{/each}}
-            </ul>
+            <div class="col-md-12">
+                {{#if currentUser}}
+                    <button type="button" class="btn btn-primary" data-behavior="show-add-idea-form" data-id="0">Add {{#if root_ideas}} new Ideas{{else}}Idea{{/if}}</button>
+                {{/if}}
+                <ul class="idea-list" {{#if root_ideas}}data-sortable="votes"{{/if}}>
+                {{#each root_ideas}}
+                    {{> ideaItem}}
+                {{/each}}
+                </ul>
+            </div>
         </div>
     </div>
 </template>
@@ -14,9 +18,9 @@
 <template name="ideaItem">
     <li data-votes="{{votes_average}}">
         <div class="name-options-wrapper" data-id="{{_id}}">
-            <div class="idea-name" data-behavior="{{#if show_children _id}}collapse-idea{{else}}expand-idea{{/if}}" data-id="{{_id}}">
+            <div class="idea-name" {{#if children}}data-behavior="{{#if show_children _id}}collapse-idea{{else}}expand-idea{{/if}}" data-id="{{_id}}"{{/if}}>
                 {{#if children}}
-                <button type="button" class="btn btn-default btn-sm" data-behavior="{{#if show_children _id}}collapse-idea{{else}}expand-idea{{/if}}" data-id="{{_id}}">
+                <button type="button" class="btn btn-default btn-sm">
                     <span class="glyphicon {{#if show_children _id}}glyphicon-chevron-down{{else}}glyphicon-chevron-right{{/if}}"></span>
                 </button>
                 {{/if}}
@@ -25,7 +29,7 @@
             </div>
             {{> options}}
         </div>
-        <ul class="children" {{#if children}}data-sortable="votes"{{/if}} {{#unless show_children _id}}style="display:none;"{{/unless}}>
+        <ul class="children" data-children-for-id="{{_id}}" {{#if children}}data-sortable="votes"{{/if}} {{#unless show_children _id}}style="display:none;"{{/unless}}>
             {{> children}}
         </ul>
     </li>
@@ -61,16 +65,18 @@
           <span class="glyphicon glyphicon-thumbs-down"></span>
         </button>
 
-        {{#if ownsIdea}}
-        {{#unless children}}
-        <button type="button" class="btn btn-default btn-sm" data-behavior="delete-idea" data-id="{{_id}}">
-            <span class="glyphicon glyphicon-remove"></span>
-        </button>
-        {{/unless}}
-        {{/if}}
+        {{#if currentUser}}
+            {{#if ownsIdea}}
+            {{#unless children}}
+            <button type="button" class="btn btn-default btn-sm" data-behavior="delete-idea" data-id="{{_id}}">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
+            {{/unless}}
+            {{/if}}
 
-        <button type="button" class="btn btn-default btn-sm" data-behavior="show-add-idea-form" data-id="{{_id}}">
-            <span class="glyphicon glyphicon-plus"></span>
-        </button>
+            <button type="button" class="btn btn-default btn-sm" data-behavior="show-add-idea-form" data-id="{{_id}}">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+        {{/if}}
     </div>
 </template>

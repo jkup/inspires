@@ -1,14 +1,9 @@
 <head>
-  <title>IdeaBucket</title>
+  <title>Bring ideas to life &mdash; inpires.io</title>
 </head>
 
 <body>
-    <header class="wrapper">
-		<div class="row">
-			<div class="col-md-10"><h1>Idea List</h1></div>
-			<div class="col-md-2">{{loginButtons}}</div>
-		</div>
-	</header>
+    {{> header}}
 
     {{> notifications}}
     {{#if currentUser}}
@@ -17,5 +12,5 @@
         {{> landing}}
     {{/if}}
 
-    <footer></footer>
+    {{> footer}}
 </body>
