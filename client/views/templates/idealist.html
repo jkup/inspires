@@ -2,7 +2,7 @@
     <div class="wrapper">
         <div class="row">
             <button type="button" class="btn btn-primary" data-behavior="show-add-idea-form" data-id="0">Add {{#if root_ideas}} new Ideas{{else}}Idea{{/if}}</button>
-            <ul class="idea-list">
+            <ul class="idea-list" {{#if root_ideas}}data-sortable="votes"{{/if}}>
             {{#each root_ideas}}
                 {{> ideaItem}}
             {{/each}}
@@ -12,7 +12,7 @@
 </template>
 
 <template name="ideaItem">
-    <li>
+    <li data-votes="{{votes_average}}">
         <div class="name-options-wrapper" data-id="{{_id}}">
             <div class="idea-name" data-behavior="{{#if show_children _id}}collapse-idea{{else}}expand-idea{{/if}}" data-id="{{_id}}">
                 {{#if children}}
@@ -23,9 +23,9 @@
 
                 {{title}}
             </div>
-            {{> options }}
+            {{> options}}
         </div>
-        <ul class="children" {{#unless show_children _id}}style="display:none;"{{/unless}}>
+        <ul class="children" {{#if children}}data-sortable="votes"{{/if}} {{#unless show_children _id}}style="display:none;"{{/unless}}>
             {{> children}}
         </ul>
     </li>

@@ -1,4 +1,6 @@
 define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea) {
+    'use strict'
+
     String.prototype.repeat = function(num) {
         return new Array(num + 1).join(this);
     }
@@ -66,7 +68,7 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
                 ideaListView.add_child(objectId, idea_title);
             }
 
-            this.$new_idea_btns.popover('hide');
+            ideaListView.$new_idea_btns.popover('hide');
             nHelper.notify('Idea added', {type: nHelper.SUCCESS, auto_dismiss: true});
         })
         .on('expand_idea.idea_list', function(e, objectId) {
@@ -109,13 +111,13 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
                 });
 
                 return _ideas;
-            },
+            }
 
-            get_root_idea: function(objectId) {
+            ,get_root_idea: function(objectId) {
                 return Ideas.findOne({_id: objectId});
-            },
+            }
 
-            build_paths_recursively: function() {
+            ,build_paths_recursively: function() {
                 // Parse arguments
                 var args = _.extend([
                         null // idea
@@ -148,23 +150,23 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
                         ,args[3] + '.' + i + '.' // select_path
                     );
                 };
-            },
+            }
 
-            get_path_to_object: function(objectId) {
+            ,get_path_to_object: function(objectId) {
                 // If path to object isn't set then build from db
                 if (!paths[objectId]) {
                     this.build_paths_recursively(this.get_root_idea(objectId));
                 }
 
                 return paths[objectId];
-            },
+            }
 
-            add_root: function(idea_title) {
+            ,add_root: function(idea_title) {
                 var ObjectId = Ideas.insert(new Idea({title: idea_title}));
                 this.build_paths_recursively(this.get_root_idea(ObjectId));
-            },
+            }
 
-            add_child: function(objectId, idea_title) {
+            ,add_child: function(objectId, idea_title) {
                 var path = this.get_path_to_object(objectId)
                     ,find = {}
                     ,push = {}
@@ -179,36 +181,77 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
 
                 // Update paths
                 this.build_paths_recursively(this.get_root_idea(path.root_id));
-            },
+            }
 
-            remove_idea: function(objectId) {
+            ,remove_idea: function(objectId) {
                 var path = ideaListView.get_path_to_object(objectId);
                 // Delete
                 Meteor.call('ideaDelete', objectId, path);
                 // Update paths
                 ideaListView.build_paths_recursively(ideaListView.get_root_idea(path.root_id));
-            },
+            }
 
-            get_paths: function() {
+            ,get_paths: function() {
                 return paths;
-            },
+            }
+
+            /**
+             * Sorting ideas algorithm
+             */
+            ,sort_ideas: function() {
+                jQuery('[data-sortable]').each(function() {
+                    var $this = jQuery(this)
+                        ,sortable_tag = $this.data('sortable')
+                        ,children = $this.children().toArray()
+                        ,$current, $sibling, move_before
+                        ;
+
+                    // Loop through all children
+                    for ( var i = 1; i < children.length; i++ ) {
+                        if (i === 0) continue;
+                        move_before = null;
+                        $current = jQuery(children[i]);
+
+                        // Go through it's previous siblings and find where this element goes in the tree
+                        for (var j = i - 1; j >= 0; j--) {
+                            $sibling = jQuery(children[j]);
+
+                            if ($current.data(sortable_tag) > $sibling.data(sortable_tag)) {
+                                move_before = {
+                                    key: j
+                                    ,el: $sibling
+                                };
+                            }
+                        };
+
+                        // Move element to the correct position
+                        if (move_before) {
+                            // Reorganize children array
+                            children.splice(move_before.key, 0, children.splice(i, 1)[0]);
+                            // Move element
+                            move_before.el.before($current);
+                        };
+                    }
+                });
+            }
 
             // User
 
-            is_idea_opened: function(objectId) {
+            ,is_idea_opened: function(objectId) {
                 if (!this.opened_cache) {
                     this.opened_cache = Meteor.user().ideas.opened;
                 }
 
                 // TODO: The second part of this if shouldn't be here, but for some reason grabbing the user after a child was added wasn't pulling the latest data
                 return (this.opened_cache.indexOf(objectId) !== -1 || this.should_open == objectId) && this.should_not_open !== objectId;
-            },
+            }
 
-            is_my_idea: function(owner) {
+            ,is_my_idea: function(owner) {
                 return Meteor.user()._id === owner;
-            },
+            }
 
-            initialize: function() {
+            // Initialize
+            ,initialize: function() {
                 this.$new_idea_btns = jQuery('[data-behavior~=show-add-idea-form]');
                 this.$new_idea_btns.each(function(){
                     var $this = jQuery(this)
@@ -228,6 +271,9 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
                     })
                     ;
                 });
+
+                // Trigger sort
+                this.sort_ideas();
             }
         };
     }());
@@ -242,6 +288,9 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
 
     Template.ideaItem.helpers({
         show_children: ideaListView.is_idea_opened.bind(ideaListView)
+        ,votes_average: function() {
+            return this.votes.up - this.votes.down;
+        }
     });
 
     Template.options.helpers({
