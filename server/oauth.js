@@ -72,6 +72,7 @@ if (isProdEnv()) {
 var userDefaults = function(name, email) {
     this.ideas = {
         opened: []
+        ,voted: {}
     };
 };
 

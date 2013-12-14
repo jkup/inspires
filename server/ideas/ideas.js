@@ -4,20 +4,20 @@ Meteor.publish('ideas', function() {
 
 Meteor.methods({
     ideaDelete: function (objectId, path) {
-    	objectId = new Meteor.Collection.ObjectID(objectId).toHexString();
+        objectId = new Meteor.Collection.ObjectID(objectId).toHexString();
 
         // Declare variables
         var select = {}
             ,update = {}
             ;
 
-        // Build update
+        // Build select
         select[path.select_path + '_id'] = objectId;
         select[path.select_path + 'owner'] = this.userId;
         select[path.select_path + 'children'] = {$size: 0};
 
-        // Build select
-    	update[path.remove_path] = {_id: objectId};
+        // Build update
+        update[path.remove_path] = {_id: objectId};
 
         // Check if object is root
         if (objectId === path.root_id) {
@@ -30,7 +30,51 @@ Meteor.methods({
         }
     },
 
-    ideaVote: function (vote, path) {
-        //votes logic goes here
+    ideaVote: function (vote_type, objectId, path) {
+        objectId = new Meteor.Collection.ObjectID(objectId).toHexString();
+
+        if (['up', 'down'].indexOf(vote_type) === -1) {
+            console.log('Invalid vote type');
+            return false;
+        }
+
+        // Declare variables
+        var user = Meteor.user()
+            ,select = {}
+            ,update = {}
+            ;
+
+        // Build select
+        select[path.select_path + '_id'] = objectId;
+
+        if (user.ideas.voted[objectId]) {
+            // User has already voted for this vote type then we remove the vote
+            if (user.ideas.voted[objectId] === vote_type) {
+                // Decrement vote from vote type
+                update[path.select_path + 'votes.' + vote_type] = -1;
+                Ideas.update(select, {$inc: update});
+
+                // Update the user
+                update = {};
+                update['ideas.voted.' + objectId] = vote_type;
+                Meteor.users.update({_id: this.userId}, {$unset: update});
+
+                return;
+            } else {
+                // If user is changing their vote then we need to subtract one of the other type
+                update[path.select_path + 'votes.' + (vote_type === 'up' ? 'down': 'up')] = -1;
+            }
+        }
+
+        // Build update
+        update[path.select_path + 'votes.' + vote_type] = 1;
+
+        // Increment vote
+        Ideas.update(select, {$inc: update});
+
+        // Record the ideas this user has voted on
+        update = {};
+        update['ideas.voted.' + objectId] = vote_type;
+        Meteor.users.update({_id: this.userId}, {$set: update});
     }
 });

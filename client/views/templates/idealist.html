@@ -51,18 +51,16 @@
 
 <template name="options">
     <div class="options">
-<!--
-        <button type="button" class="btn btn-default btn-sm disabled">{{votes.up}}</button>
-
-        <button type="button" class="btn btn-default btn-sm" data-behavior="vote-up" data-id="{{_id}}" title="Vote Up">
+        <button type="button" class="btn btn-default btn-sm {{up_vote_active}}" data-behavior="vote-up" data-id="{{_id}}" title="Vote Up">
             <span class="glyphicon glyphicon-thumbs-up"></span>
         </button>
 
-        <button type="button" class="btn btn-default btn-sm" data-behavior="vote-down" data-id="{{_id}}" title="Vote Down">
+        <button type="button" class="btn btn-default btn-sm disabled">{{votes_average}}</button>
+
+        <button type="button" class="btn btn-default btn-sm {{down_vote_active}}" data-behavior="vote-down" data-id="{{_id}}" title="Vote Down">
           <span class="glyphicon glyphicon-thumbs-down"></span>
         </button>
 
--->
         {{#if ownsIdea}}
         {{#unless children}}
         <button type="button" class="btn btn-default btn-sm" data-behavior="delete-idea" data-id="{{_id}}">
