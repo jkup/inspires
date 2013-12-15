@@ -17,6 +17,23 @@ body {
 button.main-add {
 	margin-bottom: 1em
 }
+.login-close-text {
+	margin-left: -10000px;
+}
+.sign-in-text-twitter, .sign-in-text-facebook {
+	margin: 0 0 0.5em 0;
+	text-indent:-10000px;
+	display:inline-block;
+	height: 31px;
+	width:182px;
+	background-repeat: no-repeat;
+}
+.sign-in-text-facebook {
+	background-image: url('../../images/facebook-login.png');
+}
+.sign-in-text-twitter {
+	background-image: url('../../images/twitter-login.png');
+}
 .idea-name {
 	display: inline-block;
 	width: 100%;
