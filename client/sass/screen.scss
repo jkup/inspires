@@ -73,3 +73,11 @@ ul{
 form.new-idea {
 	min-width: 200px
 }
+.login-button, .login-close-text, .login-link-text {
+	color: #428bca;
+	cursor: pointer;
+}
+.login-button:hover {
+	color: #2a6496;
+	text-decoration: underline;
+}
