@@ -61,11 +61,11 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             if (0 === objectId) {
                 ideaListView.add_root(idea_title);
             } else {
-                // Auto open children
-                jQuery(this).trigger('expand_idea', objectId);
-
                 // Add child
                 ideaListView.add_child(objectId, idea_title);
+
+                // Auto open children
+                jQuery(this).trigger('expand_idea', objectId);
             }
 
             ideaListView.$new_idea_btns.popover('hide');
@@ -174,6 +174,11 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             }
 
             ,add_root: function(idea_title) {
+                // Let's check first that this idea doesn't already exist
+                if (Ideas.find({title: idea_title}).fetch().length) {
+                    throw 'This idea already exists!';
+                }
+
                 var ObjectId = Ideas.insert(new Idea({title: idea_title}));
                 this.build_paths_recursively(this.get_root_idea(ObjectId));
             }
@@ -184,9 +189,14 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
                     ,push = {}
                     ;
 
-                if (!path) throw 'ObjectId not found.';
+                if (!path) throw 'Invalid parent idea.';
 
-                // find[path.find_path] = new Meteor.Collection.ObjectID(objectId).toHexString();
+                find[path.select_path + 'children.title'] = idea_title;
+
+                if (Ideas.find(find).fetch().length) {
+                    throw 'This idea already exists!';
+                }
+
                 push[path.push_path] = new Idea({title: idea_title});
 
                 Ideas.update({'_id': new Meteor.Collection.ObjectID(path.root_id).toHexString()}, {$push: push});
