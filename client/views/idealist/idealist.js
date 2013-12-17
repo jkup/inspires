@@ -80,7 +80,7 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             nHelper.notify('Idea added', {type: nHelper.SUCCESS, auto_dismiss: true});
         })
         .on('hide_idea.idea_list', function(e, objectId, idea_title) {
-            var open_popups = ideaListView.get_popups()();
+            var open_popups = ideaListView.get_popups();
                 jQuery.each(open_popups, function(key, popup) {
                     if(jQuery(popup.input).val().length === 0) {
                         open_popups.splice(key, 1);
@@ -224,9 +224,7 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             }
 
             ,get_popups: function() {
-                return function() {
-                    return open_popups;
-                }
+                return open_popups;
             }
 
             ,close_popups: function() {
@@ -321,11 +319,11 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
                         })
                     })
                     .on('shown.bs.popover', function() {
-                        var $el = jQuery('.form[data-id~=' + objectId + ']:visible');
-                        $el.find('input').focus();
+                        var $el = jQuery('.form[data-id~=' + objectId + ']:visible').find('input');
+                        $el.focus();
                         open_popups.push({
                             button: jQuery(this),
-                            input: $($el[0]).find('input')
+                            input: $($el[0])
                         });
                     })
                     ;
