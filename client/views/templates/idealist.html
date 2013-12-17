@@ -59,8 +59,8 @@
 
 <template name="options">
     <div class="options">
-        <div class="extra-actions">
         {{#if currentUser}}
+        <div class="extra-actions">
             {{#if ownsIdea}}
             {{#unless children}}
             <button type="button" class="btn btn-default btn-sm" data-behavior="delete-idea" data-id="{{_id}}">
@@ -72,8 +72,8 @@
             <button type="button" class="btn btn-default btn-sm" data-behavior="show-add-idea-form" data-id="{{_id}}">
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
-        {{/if}}
         </div>
+        {{/if}}
 
         <button type="button" class="btn btn-default btn-sm {{up_vote_active}}" data-behavior="vote-up" data-id="{{_id}}" title="Vote Up">
             <span class="glyphicon glyphicon-thumbs-up"></span>
