@@ -1,6 +1,7 @@
 // Add bootstrap
 @import "variables";
 @import "bootstrap";
+@import "retina";
 
 body {
 	background: #FFF;
@@ -17,22 +18,24 @@ body {
 button.main-add {
 	margin-bottom: 1em
 }
-.login-close-text {
-	margin-left: -10000px;
+a.login-close-text {
+	text-indent: -10000px;
 }
 .sign-in-text-twitter, .sign-in-text-facebook {
 	margin: 0 0 0.5em 0;
 	text-indent:-10000px;
 	display:inline-block;
-	height: 31px;
+	height: 32px;
 	width:182px;
 	background-repeat: no-repeat;
 }
 .sign-in-text-facebook {
-	background-image: url('../../images/facebook-login.png');
+	background-image: url('../../images/facebook-sign-in.png');
+    @include image-2x('../../images/facebook-sign-in.png', 32, 182);
 }
 .sign-in-text-twitter {
-	background-image: url('../../images/twitter-login.png');
+	background-image: url('../../images/twitter-sign-in.png');
+    @include image-2x('../../images/twitter-sign-in.png', 32, 182);
 }
 .idea-name {
 	display: inline-block;
