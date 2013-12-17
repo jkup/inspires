@@ -3,8 +3,15 @@
 @import "bootstrap";
 @import "retina";
 
-body {
+html, body {
 	background: #FFF;
+	height: 100%;
+}
+.main-wrap {
+	height: auto !important;
+	margin: 0 auto -60px;
+	min-height: 100%;
+	padding: 0 0 60px;
 }
 .wrapper {
 	background: #FFF;
@@ -132,7 +139,16 @@ form.new-idea {
 		margin-bottom: 10px;
 	}
 }
+footer {
+    background-color: #444;
+    color: #fff;
+    height: 60px;
+    display: block;
 
+    .container .credit {
+        margin: 20px 0;
+    }
+}
 .close-it {
 	margin: 10px 10px 0 0;
 }
