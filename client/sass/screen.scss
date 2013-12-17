@@ -31,11 +31,11 @@ a.login-close-text {
 }
 .sign-in-text-facebook {
 	background-image: url('../../images/facebook-sign-in.png');
-    @include image-2x('../../images/facebook-sign-in.png', 32, 182);
+    @include image-2x('../../images/facebook-sign-in2x.png', 32, 182);
 }
 .sign-in-text-twitter {
 	background-image: url('../../images/twitter-sign-in.png');
-    @include image-2x('../../images/twitter-sign-in.png', 32, 182);
+    @include image-2x('../../images/twitter-sign-in2x.png', 32, 182);
 }
 .idea-name {
 	display: inline-block;
