@@ -19,6 +19,11 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
 
             $this.trigger('add_idea', [$this.data('id'), $this.find('input:first').val()]);
         })
+        .on('blur', '[data-behavior~=add-idea]', function(e) {
+            var $this = jQuery(this);
+
+            $this.trigger('hide_idea', [$this.data('id'), $this.find('input:first').val()]);
+        })
         .on('click', '[data-behavior~=expand-idea]', function() {
             var $this = jQuery(this)
                 ,behaviors = $this.data('behavior').split(' ')
@@ -71,9 +76,17 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
                 // Auto open children
                 jQuery(this).trigger('expand_idea', objectId);
             }
-
-            ideaListView.$new_idea_btns.popover('hide');
+            ideaListView.close_popups();
             nHelper.notify('Idea added', {type: nHelper.SUCCESS, auto_dismiss: true});
+        })
+        .on('hide_idea.idea_list', function(e, objectId, idea_title) {
+            var open_popups = ideaListView.get_popups()();
+                jQuery.each(open_popups, function(key, popup) {
+                    if(jQuery(popup.input).val().length === 0) {
+                        open_popups.splice(key, 1);
+                        popup.button.popover('hide');
+                    }
+                });
         })
         .on('delete_idea.idea_list', function(e, objectId) {
             ideaListView.remove_idea(objectId);
@@ -111,6 +124,7 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
     var ideaListView = (function() {
         // This is here until this happens: https://jira.mongodb.org/browse/SERVER-831
         var paths = {};
+        var open_popups = [];
 
         return {
             get_root_ideas: function() {
@@ -209,6 +223,17 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
                 this.build_paths_recursively(this.get_root_idea(path.root_id));
             }
 
+            ,get_popups: function() {
+                return function() {
+                    return open_popups;
+                }
+            }
+
+            ,close_popups: function() {
+                $new_idea_btns.popover('hide');
+                open_popups = [];
+            }
+
             ,remove_idea: function(objectId) {
                 var path = ideaListView.get_path_to_object(objectId);
                 // Delete
@@ -296,7 +321,12 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
                         })
                     })
                     .on('shown.bs.popover', function() {
-                        jQuery('.form[data-id~=' + objectId + ']:visible input').focus();
+                        var $el = jQuery('.form[data-id~=' + objectId + ']:visible');
+                        $el.find('input').focus();
+                        open_popups.push({
+                            button: jQuery(this),
+                            input: $($el[0]).find('input')
+                        });
                     })
                     ;
                 });
