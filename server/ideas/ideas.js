@@ -28,6 +28,22 @@ Meteor.methods({
         } else {
            Ideas.update(select, {$pull: update});
         }
+
+        // Update users
+        select = {};
+        select['ideas.voted.' + objectId] = {$exists: true};
+        update = {};
+        update['ideas.voted.' + objectId] = 'up';
+        update['ideas.voted.' + objectId] = 'down';
+        Meteor.users.update({$or: [
+                {'ideas.opened': objectId}
+                ,select
+            ]}
+            ,{
+                $pull: {'ideas.opened': objectId}
+                ,$unset: update
+            }
+            ,{multi: true});
     },
 
     ideaVote: function (vote_type, objectId, path) {
