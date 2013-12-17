@@ -1,16 +1,15 @@
 <template name="notifications">
     <div class="notifications row-fluid">
-    	<div class="wrapper">
-	        {{#each notifications}}
-	            {{> notification}}
-	        {{/each}}
-	    </div>
+        {{#each notifications}}
+            {{> notification}}
+        {{/each}}
+
     </div>
 </template>
 
 <template name="notification">
-	<div class="alert alert-{{type}} alert-dismissable">
-		<button type="button" class="close" data-behavior="dismiss-notification" aria-hidden="true" data-id="{{_id}}">&times;</button>
-		{{message}}
-	</div>
+    <div class="alert alert-{{type}} alert-dismissable">
+        <button type="button" class="close" data-behavior="dismiss-notification" aria-hidden="true" data-id="{{_id}}">&times;</button>
+        {{message}}
+    </div>
 </template>

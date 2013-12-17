@@ -43,15 +43,19 @@ button.main-add {
 	font-weight: 500;
 	-webkit-font-smoothing: antialiased;
 }
-.idea-name:hover + .options {
+.idea-name:hover + .options > .extra-actions {
 	display: block;
 }
-ul{
+ul {
 	counter-reset: li; /* Initiate a counter */
 	list-style: none; /* Remove default numbering */
 	*list-style: decimal; /* Keep using default numbering for IE6/7 */
 	font: 15px 'trebuchet MS', 'lucida sans';
 	text-shadow: 0 1px 0 rgba(255,255,255,.5);
+	margin: 0;
+	padding: 0;
+}
+ul:not(:first-child) {
 	margin: 0 0 0 2em; /* Add some left margin for inner lists */
 	padding: 0 0 0 2em; /* Add some left margin for inner lists */
 }
@@ -67,9 +71,17 @@ ul{
 	border-radius: .3em;
 	transition: all .3s ease-out;
 }
+.idea-list li {
+	.idea-name {
+		:hover {
+			background: #eee;
+		}
 
-.idea-list li .idea-name:hover{
-	background: #eee;
+		button {
+			background-color: transparent;
+			border: 0;
+		}
+	}
 }
 .no-toggle {
 	width: 74px;
@@ -77,13 +89,17 @@ ul{
 	height: 1px;
 }
 .options {
-	float: right;
+	float: left;
 	top: 11px;
 	right: 10px;
-	display: none;
 	position: absolute;
+	.extra-actions {
+		float: left;
+		display: none;
+		margin-right: 5px;
+	}
 }
-.options:hover {
+.options:hover > .extra-actions {
 	display: block;
 }
 
@@ -97,4 +113,16 @@ form.new-idea {
 .login-button:hover {
 	color: #2a6496;
 	text-decoration: underline;
+}
+
+.notifications {
+	position: absolute;
+	right: 11.5%;
+	top: 80px;
+	width: 350px;
+	z-index: 9999;
+
+	.alert {
+		margin-bottom: 10px;
+	}
 }

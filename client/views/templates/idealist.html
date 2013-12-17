@@ -59,16 +59,7 @@
 
 <template name="options">
     <div class="options">
-        <button type="button" class="btn btn-default btn-sm {{up_vote_active}}" data-behavior="vote-up" data-id="{{_id}}" title="Vote Up">
-            <span class="glyphicon glyphicon-thumbs-up"></span>
-        </button>
-
-        <button type="button" class="btn btn-default btn-sm disabled">{{votes_average}}</button>
-
-        <button type="button" class="btn btn-default btn-sm {{down_vote_active}}" data-behavior="vote-down" data-id="{{_id}}" title="Vote Down">
-          <span class="glyphicon glyphicon-thumbs-down"></span>
-        </button>
-
+        <div class="extra-actions">
         {{#if currentUser}}
             {{#if ownsIdea}}
             {{#unless children}}
@@ -82,5 +73,16 @@
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
         {{/if}}
+        </div>
+
+        <button type="button" class="btn btn-default btn-sm {{up_vote_active}}" data-behavior="vote-up" data-id="{{_id}}" title="Vote Up">
+            <span class="glyphicon glyphicon-thumbs-up"></span>
+        </button>
+
+        <button type="button" class="btn btn-default btn-sm disabled">{{votes_average}}</button>
+
+        <button type="button" class="btn btn-default btn-sm {{down_vote_active}}" data-behavior="vote-down" data-id="{{_id}}" title="Vote Down">
+          <span class="glyphicon glyphicon-thumbs-down"></span>
+        </button>
     </div>
 </template>
