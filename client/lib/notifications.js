@@ -6,6 +6,8 @@ define('notificationsHelper', function() {
         ,DANGER: 'danger'
 
         ,notify: function(msg, opts) {
+            if (typeof opts === 'string') opts = {type: opts};
+
             opts = _.extend({
                 message: msg
                 ,type: this.INFO
