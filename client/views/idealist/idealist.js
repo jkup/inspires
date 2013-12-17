@@ -9,6 +9,10 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
     jQuery(document)
 
         // Setup DOM listeners
+        .on('click', '[data-behavior~=close-jumbotron]', function() {
+            var $this = jQuery(this);
+            $($this.attr('data-close-element')).remove();
+        })
         .on('submit', '[data-behavior~=add-idea]', function(e) {
             var $this = jQuery(this);
             e.preventDefault();
