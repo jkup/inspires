@@ -317,24 +317,20 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
         }
         ,up_vote_active: function() {
             var user = Meteor.user(), voted;
-            if (!user) return false;
+            if (!user || user.ideas || user.ideas.voted) return false;
 
-            if (user.ideas && user.ideas.voted) {
-                voted = user.ideas.voted[this._id];
-                if (voted && voted === 'up') {
-                    return 'active';
-                }
+            voted = user.ideas.voted[this._id];
+            if (voted && voted === 'up') {
+                return 'active';
             }
         }
         ,down_vote_active: function() {
             var user = Meteor.user(), voted;
-            if (!user) return false;
+            if (!user || user.ideas || user.ideas.voted) return false;
 
-            if (user.ideas && user.ideas.voted) {
-                voted = user.ideas.voted[this._id];
-                if (voted && voted === 'down') {
-                    return 'active'
-                }
+            voted = user.ideas.voted[this._id];
+            if (voted && voted === 'down') {
+                return 'active'
             }
         }
     });
