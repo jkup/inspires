@@ -9,9 +9,9 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
     jQuery(document)
 
         // Setup DOM listeners
-        .on('click', '[data-behavior~=close-jumbotron]', function() {
+        .on('click', '[data-behavior~=close]', function() {
             var $this = jQuery(this);
-            $($this.attr('data-close-element')).remove();
+            $($this.attr('data-close-element')).slideUp();
         })
         .on('submit', '[data-behavior~=add-idea]', function(e) {
             var $this = jQuery(this);
@@ -210,13 +210,11 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
                 if (!path) throw 'Invalid parent idea.';
 
                 find[path.select_path + 'children.title'] = idea_title;
-
                 if (Ideas.find(find).fetch().length) {
                     throw 'This idea already exists!';
                 }
 
                 push[path.push_path] = new Idea({title: idea_title});
-
                 Ideas.update({'_id': new Meteor.Collection.ObjectID(path.root_id).toHexString()}, {$push: push});
 
                 // Update paths
