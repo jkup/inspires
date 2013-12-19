@@ -60,7 +60,7 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
         })
         .on('vote.idea_list', function(e, vote, objectId) {
             if (!Meteor.user()) {
-                nHelper.notify('Please login to vote.', {type: nHelper.WARNING, auto_dismiss: true});
+                nHelper.notify('Please login to vote.', {type: nHelper.WARNING, auto_dismiss: true, dismiss_after: 1500});
             } else {
                 var path = ideasHelper.get_path_to_object(objectId);
                 Meteor.call('ideaVote', vote, objectId, path);
@@ -166,6 +166,16 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
         show_children: ideasHelper.is_idea_opened.bind(ideasHelper)
         ,votes_average: function() {
             return this.votes.up - this.votes.down;
+        }
+    });
+
+    Template.newIdea.helpers({
+        add_idea_text: function() {
+            if (this.object_id === 0) {
+                return 'Add new idea';
+            } else {
+                return 'Add sub idea';
+            }
         }
     });
 
