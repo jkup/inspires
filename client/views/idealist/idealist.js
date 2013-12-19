@@ -116,8 +116,12 @@ define('ideaListView', ['notificationsHelper', '_Idea'], function(nHelper, Idea)
             ideaListView.opened_cache.splice(ideaListView.opened_cache.indexOf(objectId), 1);
         })
         .on('vote.idea_list', function(e, vote, objectId) {
-            var path = ideaListView.get_path_to_object(objectId);
-            Meteor.call('ideaVote', vote, objectId, path);
+            if (!Meteor.user()) {
+                nHelper.notify('Please login to vote.', {type: nHelper.WARNING, auto_dismiss: true});
+            } else {
+                var path = ideaListView.get_path_to_object(objectId);
+                Meteor.call('ideaVote', vote, objectId, path);
+            }
         })
         ;
 
