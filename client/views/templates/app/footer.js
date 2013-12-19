@@ -1,4 +1,4 @@
-jQuery('footer')
+jQuery(document)
 	.on('click', '[data-behavior~=change-route]', function(e) {
 		e.preventDefault();
 		Router.go(jQuery(this).prop('href'));
