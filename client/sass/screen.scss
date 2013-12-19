@@ -1,11 +1,16 @@
+@import "compass/css3";
+@import "compass/utilities";
+@import "retina";
 // Add bootstrap
 @import "variables";
 @import "bootstrap";
-@import "retina";
 
 html, body {
 	background: #FFF;
 	height: 100%;
+}
+h1 {
+	margin-top: 0;
 }
 .main-wrap {
 	height: auto !important;
@@ -96,6 +101,28 @@ ul:not(:first-child) {
 		}
 	}
 }
+.about-page {
+	padding-top: 10px;
+
+	h2 {
+		margin: 35px 0 25px;
+		text-decoration: underline;
+	}
+
+	h2.meet-team-header {
+		margin: 0 0 35px;
+	}
+
+	.team-member {
+		width: 165px;
+		margin: 0 auto;
+	}
+
+	img {
+		@include border-radius(100px);
+		width: 165px;
+	}
+}
 .no-toggle {
 	width: 74px;
 	float: left;
@@ -139,14 +166,35 @@ form.new-idea {
 		margin-bottom: 10px;
 	}
 }
+
 footer {
     background-color: #444;
     color: #fff;
     height: 60px;
     display: block;
 
-    .container .credit {
-        margin: 20px 0;
+    .container {
+	    width: 80%;
+    	margin: 0 auto;
+
+		.credit {
+			float: right;
+        	margin: 20px 0;
+		}
+		.links {
+			float: left;
+        	margin: 20px 0;
+
+        	a {
+        		color: #fff;
+        		margin: 0 5px;
+				outline: 0;
+
+        		:hover {
+        			color: #ccc;
+        		}
+        	}
+		}
     }
 }
 .close-it {
