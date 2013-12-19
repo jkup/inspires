@@ -5,6 +5,9 @@
 @import "variables";
 @import "bootstrap";
 
+/**
+ * General styles 
+ */
 html, body {
 	background: #FFF;
 	height: 100%;
@@ -24,149 +27,6 @@ h1 {
 	padding: 25px;
 	margin: 0 auto;
 }
-.welcome .jumbotron {
-	margin-bottom: 0;
-}
-.name-options-wrapper {
-	position: relative;
-}
-button.main-add {
-	margin-bottom: 1em
-}
-a.login-close-text {
-	text-indent: -10000px;
-}
-.sign-in-text-twitter, .sign-in-text-facebook {
-	margin: 0 0 0.5em 0;
-	text-indent:-10000px;
-	display:inline-block;
-	height: 32px;
-	width:182px;
-	background-repeat: no-repeat;
-}
-.sign-in-text-facebook {
-	background-image: url('../../images/facebook-sign-in.png');
-    @include image-2x('../../images/facebook-sign-in2x.png', 182px, 32px);
-}
-.sign-in-text-twitter {
-	background-image: url('../../images/twitter-sign-in.png');
-    @include image-2x('../../images/twitter-sign-in2x.png', 182px, 32px);
-}
-.idea-name {
-	display: inline-block;
-	width: 100%;
-	min-height: 30px;
-	line-height: 30px;
-	background: #DDDDDD;
-	font-weight: 500;
-	-webkit-font-smoothing: antialiased;
-}
-.idea-name:hover + .options > .extra-actions {
-	display: block;
-}
-ul {
-	counter-reset: li; /* Initiate a counter */
-	list-style: none; /* Remove default numbering */
-	*list-style: decimal; /* Keep using default numbering for IE6/7 */
-	font: 15px 'trebuchet MS', 'lucida sans';
-	text-shadow: 0 1px 0 rgba(255,255,255,.5);
-	margin: 0;
-	padding: 0;
-}
-ul:not(:first-child) {
-	margin: 0 0 0 2em; /* Add some left margin for inner lists */
-	padding: 0 0 0 2em; /* Add some left margin for inner lists */
-}
-.idea-list li .idea-name {
-	position: relative;
-	display: inline-block;
-	padding: .4em .4em .4em 2em;
-	*padding: .4em;
-	margin: .25em 0;
-	background: #ddd;
-	color: #444;
-	text-decoration: none;
-	border-radius: .3em;
-	transition: all .3s ease-out;
-}
-.idea-list li {
-	.idea-name {
-		:hover {
-			background: #eee;
-		}
-
-		button {
-			background-color: transparent;
-			border: 0;
-		}
-	}
-}
-.about-page {
-	padding-top: 10px;
-
-	h2 {
-		margin: 35px 0 25px;
-		text-decoration: underline;
-	}
-
-	h2.meet-team-header {
-		margin: 0 0 35px;
-	}
-
-	.team-member {
-		width: 165px;
-		margin: 0 auto;
-	}
-
-	img {
-		@include border-radius(100px);
-		width: 165px;
-	}
-}
-.no-toggle {
-	width: 74px;
-	float: left;
-	height: 1px;
-}
-.options {
-	float: left;
-	top: 11px;
-	right: 10px;
-	position: absolute;
-	.extra-actions {
-		float: left;
-		display: none;
-		margin-right: 5px;
-	}
-}
-.options:hover > .extra-actions {
-	display: block;
-}
-
-form.new-idea {
-	min-width: 200px
-}
-.login-button, .login-close-text, .login-link-text {
-	color: #428bca;
-	cursor: pointer;
-}
-.login-button:hover {
-	color: #2a6496;
-	text-decoration: underline;
-}
-
-.notifications {
-	left: 11.3%;
-	position: absolute;
-	top: 125px;
-	width: 350px;
-	z-index: 9999;
-
-	.alert {
-		margin-bottom: 10px;
-	}
-}
-
 footer {
     background-color: #444;
     color: #fff;
@@ -197,6 +57,158 @@ footer {
 		}
     }
 }
+
+/**
+ * Login menu 
+ */
+a.login-close-text {
+	text-indent: -10000px;
+}
+.sign-in-text-twitter, .sign-in-text-facebook {
+	margin: 0 0 0.5em 0;
+	text-indent:-10000px;
+	display:inline-block;
+	height: 32px;
+	width:182px;
+	background-repeat: no-repeat;
+}
+.sign-in-text-facebook {
+	background-image: url('../../images/facebook-sign-in.png');
+    @include image-2x('../../images/facebook-sign-in2x.png', 182px, 32px);
+}
+.sign-in-text-twitter {
+	background-image: url('../../images/twitter-sign-in.png');
+    @include image-2x('../../images/twitter-sign-in2x.png', 182px, 32px);
+}
+.login-button, .login-close-text, .login-link-text {
+	color: #428bca;
+	cursor: pointer;
+}
+.login-button:hover {
+	color: #2a6496;
+	text-decoration: underline;
+}
+
+/**
+ * Notifications 
+ */
+.notifications {
+	left: 11.3%;
+	position: absolute;
+	top: 125px;
+	width: 350px;
+	z-index: 9999;
+
+	.alert {
+		margin-bottom: 10px;
+	}
+}
+
+/**
+ * Landing 
+ */
+.welcome .jumbotron {
+	margin-bottom: 0;
+}
+.name-options-wrapper {
+	position: relative;
+}
 .close-it {
 	margin: 10px 10px 0 0;
+}
+
+/**
+ * Idea list 
+ */
+button.main-add {
+	margin-bottom: 1em
+}
+ul {
+	counter-reset: li; /* Initiate a counter */
+	list-style: none; /* Remove default numbering */
+	*list-style: decimal; /* Keep using default numbering for IE6/7 */
+	font: 15px 'trebuchet MS', 'lucida sans';
+	text-shadow: 0 1px 0 rgba(255,255,255,.5);
+	margin: 0;
+	padding: 0;
+}
+.idea-list {
+	ul {
+		margin: 0 0 0 2em; /* Add some left margin for inner lists */
+		padding: 0 0 0 2em; /* Add some left margin for inner lists */
+	}
+
+	li .idea-name {
+		position: relative;
+		display: inline-block;
+		padding: .4em .4em .4em 2em;
+		*padding: .4em;
+		margin: .25em 0;
+		background: #ddd;
+		color: #444;
+		text-decoration: none;
+		border-radius: .3em;
+		transition: all .3s ease-out;
+		width: 100%;
+		min-height: 30px;
+		line-height: 30px;
+		font-weight: 500;
+		-webkit-font-smoothing: antialiased;
+
+		:hover {
+			background: #eee;
+		}
+
+		button {
+			background-color: transparent;
+			border: 0;
+		}
+	}
+
+	.options {
+		float: left;
+		top: 11px;
+		right: 10px;
+		position: absolute;
+		.extra-actions {
+			float: left;
+			display: none;
+			margin-right: 5px;
+		}
+	}
+	.options:hover > .extra-actions {
+		display: block;
+	}
+}
+.idea-name:hover + .options > .extra-actions {
+	display: block;
+}
+form.new-idea {
+	min-width: 200px
+}
+
+/**
+ * About 
+ */
+.about-page {
+	padding-top: 10px;
+
+	h2 {
+		margin: 35px 0 25px;
+		text-decoration: underline;
+	}
+
+	h2.meet-team-header {
+		margin: 0 0 35px;
+	}
+
+	.team-member {
+		width: 165px;
+		margin: 0 auto;
+	}
+
+	img {
+		@include border-radius(100px);
+		width: 165px;
+	}
 }
