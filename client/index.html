@@ -3,16 +3,5 @@
 </head>
 
 <body>
-	<div class="main-wrap">
-    {{> header}}
-
     {{> notifications}}
-    {{#if currentUser}}
-        {{> ideaList}}
-    {{else}}
-        {{> landing}}
-    {{/if}}
-    </div>
-
-    {{> footer}}
 </body>

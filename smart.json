@@ -1,5 +1,6 @@
 {
   "packages": {
-    "smart-collections": {}
+    "smart-collections": {},
+    "iron-router": {}
   }
 }

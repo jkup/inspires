@@ -2,13 +2,19 @@
   "meteor": {},
   "dependencies": {
     "basePackages": {
-      "smart-collections": {}
+      "smart-collections": {},
+      "iron-router": {}
     },
     "packages": {
       "smart-collections": {
         "git": "https://github.com/arunoda/meteor-smart-collections.git",
-        "tag": "v0.3.23",
-        "commit": "bb31d4679c8a630db856f6a569a3f3232b3cd301"
+        "tag": "v0.3.24",
+        "commit": "622430e1294cbfa81a228ef283165f53aca03933"
+      },
+      "iron-router": {
+        "git": "https://github.com/EventedMind/iron-router.git",
+        "tag": "v0.6.1",
+        "commit": "4e1ee0581d68bff422a915dacb0bd30eae10fe08"
       }
     }
   }
