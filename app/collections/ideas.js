@@ -1,5 +1,14 @@
+'use strict';
 
-Ideas = new Meteor.SmartCollection('ideas');
+var _app;
+
+if (typeof window !== 'undefined') {
+    _app = window;
+} else {
+    _app = global;
+}
+
+_app.Ideas = new Meteor.SmartCollection('ideas');
 
 Ideas.allow({
     insert: function() {

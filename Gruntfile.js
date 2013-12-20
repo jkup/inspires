@@ -33,6 +33,7 @@ module.exports = function(grunt) {
                 ,globals: {
                     node: true
                     ,jQuery: true
+                    ,global: true
                     ,Meteor: true
                     ,Accounts: true
                     ,_: true
