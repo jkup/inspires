@@ -1,4 +1,3 @@
-'use strict';
 
 Ideas = new Meteor.SmartCollection('ideas');
 

@@ -35,7 +35,7 @@ define('notificationsHelper', function() {
         }
     };
 
-    Notifications = new Meteor.Collection(null);
+    window.Notifications = new Meteor.Collection(null);
 
     return notification_helper;
 });
