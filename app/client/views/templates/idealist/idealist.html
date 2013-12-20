@@ -61,12 +61,10 @@
     <div class="options">
         {{#if currentUser}}
         <div class="extra-actions">
-            {{#if ownsIdea}}
-            {{#unless children}}
+            {{#if canDelete}}
             <button type="button" class="btn btn-default btn-sm" data-behavior="delete-idea" data-id="{{_id}}">
                 <span class="glyphicon glyphicon-remove"></span>
             </button>
-            {{/unless}}
             {{/if}}
 
             <button type="button" class="btn btn-default btn-sm" data-behavior="show-add-idea-form" data-id="{{_id}}">

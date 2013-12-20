@@ -180,8 +180,9 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
     });
 
     Template.options.helpers({
-        ownsIdea: function() {
-            return ideasHelper.is_my_idea(this.owner);
+        canDelete: function() {
+            var user = Meteor.user();
+            return (ideasHelper.is_my_idea(this.owner) && !this.children) || (user.permissions && user.permissions.indexOf('admin') !== -1);
         }
         ,votes_average: function() {
             return this.votes.up - this.votes.down;

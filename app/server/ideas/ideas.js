@@ -11,22 +11,28 @@ Meteor.methods({
         // Declare variables
         var select = {}
             ,update = {}
+            ,user = Meteor.user()
             ;
 
         // Build select
         select[path.select_path + '_id'] = objectId;
-        select[path.select_path + 'owner'] = this.userId;
-        select[path.select_path + 'children'] = {$size: 0};
+
+        if (!user.permissions || user.permissions.indexOf('admin') === -1) {
+            select[path.select_path + 'owner'] = this.userId;
+            select[path.select_path + 'children'] = {$size: 0};
+        }
+
+        // Let's make sure the item exists
+        if (Ideas.find(select).fetch().length === 0) {
+            return false;
+        }
 
         // Build update
         update[path.remove_path] = {_id: objectId};
 
         // Check if object is root
         if (objectId === path.root_id) {
-            // If this isn't here otherwise meteor remove the document from it's cache, but not actually from mongo which is what should happen, but it shouldn't remve it from the cache
-            if (Ideas.find(select).fetch().length > 0) {
-                Ideas.remove(select);
-            }
+            Ideas.remove(select);
         } else {
            Ideas.update(select, {$pull: update});
         }

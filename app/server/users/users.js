@@ -4,6 +4,7 @@ Meteor.publish('userData', function() {
     return Meteor.users.find({_id: this.userId}, {
         fields: {
             ideas: 1
+            ,permissions: 1
         }
     });
 });
