@@ -1,4 +1,6 @@
 define('notificationsView', ['notificationsHelper'], function(nHelper) {
+    'use strict';
+
     // Outer most selector
     jQuery(document)
 
@@ -30,6 +32,6 @@ define('notificationsView', ['notificationsHelper'], function(nHelper) {
             setTimeout(function(){
                 jQuery('[data-id~=' + notification._id + ']').trigger('click');
             }, notification.dismiss_after);
-        };
-    }
+        }
+    };
 });

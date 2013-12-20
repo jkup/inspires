@@ -1,11 +1,11 @@
-'use strict'
+'use strict';
 
 // Outer most selector
 jQuery(document)
 
     // Setup DOM listeners
     .on('click', '[data-behavior~=close]', function() {
-        $(jQuery(this).attr('data-close-element')).slideUp();
+        jQuery(jQuery(this).attr('data-close-element')).slideUp();
     })
     .on('submit', '[data-behavior~=add-idea]', function(e) {
         var $this = jQuery(this);
@@ -13,7 +13,7 @@ jQuery(document)
 
         $this.trigger('add_idea', [$this.data('id'), $this.find('input:first').val()]);
     })
-    .on('blur', '[data-behavior~=add-idea]', function(e) {
+    .on('blur', '[data-behavior~=add-idea]', function() {
         var $this = jQuery(this);
 
         $this.trigger('hide_idea', [$this.data('id'), $this.find('input:first').val()]);

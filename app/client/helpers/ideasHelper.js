@@ -1,5 +1,5 @@
 define('ideasHelper', ['_Idea'], function(Idea) {
-    'use strict'
+    'use strict';
 
     var ideasHelper = (function() {
         // This is here until this happens: https://jira.mongodb.org/browse/SERVER-831
@@ -16,7 +16,7 @@ define('ideasHelper', ['_Idea'], function(Idea) {
                     var ideas = _ideas;
                     for (var i = 0; i < ideas.length; i++) {
                         that.build_paths_recursively(ideas[i]);
-                    };
+                    }
                 });
 
                 return _ideas;
@@ -36,7 +36,6 @@ define('ideasHelper', ['_Idea'], function(Idea) {
                         ,'children' // remove_path
                         ,'' // select_path
                         ], arguments)
-                    ,select_path = 'children.'.repeat(args[2])
                     ;
 
                 // Add to paths cache
@@ -58,7 +57,7 @@ define('ideasHelper', ['_Idea'], function(Idea) {
                         ,args[3] // remove path
                         ,args[3] + '.' + i + '.' // select_path
                     );
-                };
+                }
             }
 
             ,get_path_to_object: function(objectId) {
@@ -86,10 +85,10 @@ define('ideasHelper', ['_Idea'], function(Idea) {
                     ,push = {}
                     ;
 
-                if (!path) throw 'Invalid parent idea.';
+                if (!path) {throw 'Invalid parent idea.';}
 
                 find[path.select_path + 'children.title'] = idea_title;
-                find['_id'] = path.root_id;
+                find._id = path.root_id;
                 if (Ideas.find(find).fetch().length) {
                     throw 'This idea already exists!';
                 }
@@ -115,14 +114,14 @@ define('ideasHelper', ['_Idea'], function(Idea) {
             ,is_idea_opened: function(objectId) {
                 var user = Meteor.user();
 
-                if (!user) return false;
+                if (!user) {return false;}
 
                 if (!this.opened_cache) {
                     this.opened_cache = user.ideas.opened;
                 }
 
                 // TODO: The second part of this if shouldn't be here, but for some reason grabbing the user after a child was added wasn't pulling the latest data
-                return (this.opened_cache.indexOf(objectId) !== -1 || this.should_open == objectId) && this.should_not_open !== objectId;
+                return (this.opened_cache.indexOf(objectId) !== -1 || this.should_open === objectId) && this.should_not_open !== objectId;
             }
 
             ,is_my_idea: function(owner) {
@@ -132,11 +131,11 @@ define('ideasHelper', ['_Idea'], function(Idea) {
 
             ,vote_type_for_objectID_selected: function(objectId, type) {
                 var user = Meteor.user(), voted;
-                if (!user || !user.ideas || !user.ideas.voted) return false;
+                if (!user || !user.ideas || !user.ideas.voted) {return false;}
 
                 voted = user.ideas.voted[objectId];
                 if (voted && voted === type) {
-                    return 'active'
+                    return 'active';
                 }
             }
         };

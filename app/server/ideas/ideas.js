@@ -1,3 +1,5 @@
+'use strict';
+
 Meteor.publish('ideas', function() {
     return Ideas.find();
 });
@@ -50,7 +52,6 @@ Meteor.methods({
         objectId = new Meteor.Collection.ObjectID(objectId).toHexString();
 
         if (['up', 'down'].indexOf(vote_type) === -1) {
-            console.log('Invalid vote type');
             return false;
         }
 

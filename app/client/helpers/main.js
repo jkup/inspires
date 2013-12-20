@@ -1,3 +1,5 @@
+'use strict';
+
 Meteor.subscribe('userData');
 Meteor.subscribe('ideas');
 
@@ -8,8 +10,8 @@ window.onerror = function(error) {
             nHelper.notify(error, {type: nHelper.DANGER, auto_dismiss: true, dismiss_after: 8000});
         });
     }
-}
+};
 
 String.prototype.repeat = function(num) {
     return new Array(num + 1).join(this);
-}
+};

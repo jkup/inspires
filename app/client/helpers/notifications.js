@@ -1,3 +1,5 @@
+'use strict';
+
 define('notificationsHelper', function() {
     var notification_helper = {
         INFO: 'info'
@@ -6,7 +8,7 @@ define('notificationsHelper', function() {
         ,DANGER: 'danger'
 
         ,notify: function(msg, opts) {
-            if (typeof opts === 'string') opts = {type: opts};
+            if (typeof opts === 'string') {opts = {type: opts};}
 
             opts = _.extend({
                 message: msg

@@ -1,3 +1,5 @@
+'use strict';
+
 jQuery(document)
 	.on('click', '[data-behavior~=change-route]', function(e) {
 		e.preventDefault();

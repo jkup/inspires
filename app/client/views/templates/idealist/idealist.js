@@ -1,5 +1,5 @@
 define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper, ideasHelper) {
-    'use strict'
+    'use strict';
 
     // Outer most selector
     jQuery(document)
@@ -7,7 +7,7 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
         // Setup custom events
         .on('add_idea.idea_list', function(e, objectId, idea_title) {
             // If no input from user
-            if (!idea_title) return;
+            if (!idea_title) {return;}
 
             // See if we are adding a root idea or child idea
             if (0 === objectId) {
@@ -22,7 +22,7 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
             ideaListView.close_popups();
             nHelper.notify('Idea added', {type: nHelper.SUCCESS, auto_dismiss: true});
         })
-        .on('hide_idea.idea_list', function(e, objectId, idea_title) {
+        .on('hide_idea.idea_list', function() {
             var open_popups = ideaListView.get_popups();
                 jQuery.each(open_popups, function(key, popup) {
                     if(jQuery(popup.input).val().length === 0) {
@@ -94,7 +94,7 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
 
                     // Loop through all children
                     for ( var i = 1; i < children.length; i++ ) {
-                        if (i === 0) continue;
+                        if (i === 0) {continue;}
                         move_before = null;
                         $current = jQuery(children[i]);
 
@@ -108,7 +108,7 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
                                     ,el: $sibling
                                 };
                             }
-                        };
+                        }
 
                         // Move element to the correct position
                         if (move_before) {
@@ -116,7 +116,7 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
                             children.splice(move_before.key, 0, children.splice(i, 1)[0]);
                             // Move element
                             move_before.el.before($current);
-                        };
+                        }
                     }
                 });
             }
