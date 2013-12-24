@@ -6,15 +6,16 @@ Requirements
 4. Install meteorite
 5. Install grunt-cli - http://gruntjs.com/getting-started
 6. Install compass
-7. Install bootstrap sass - `` `gem install bootstrap-sass` ``
+7. Install bootstrap sass - ``gem install bootstrap-sass``
 
 Install package requirements
 ----------------------------
-1. npm install
+1. Run ``npm install`` on the root of the repo
+2. Run ``mrt install`` inside the ``app`` directory
 
-Use
----
-Run meteor `` `cd` `` into `` `app` `` then run meteorite  
+Run in development
+------------------
+Run meteor ``cd`` into the ``app`` folder then run meteorite  
 ```
 mrt
 ```
@@ -24,7 +25,7 @@ Watch for file changes on another terminal window, run grunt from the root of th
 grunt watch
 ```
 
-Run compass `` `cd` `` into `` `app/client` `` then run compass  
+Run compass ``cd`` into ``app/client`` then run compass  
 ```
 compass watch
 ```
