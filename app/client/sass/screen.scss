@@ -35,6 +35,15 @@ h1 {
 	padding: 25px;
 	margin: 0 auto;
 }
+@media screen and (max-width: 800px) {
+    .wrapper {
+	width: 100%;
+    }
+    .wrapper .pull-right {
+	float: left !important;
+    }
+}
+
 footer {
     background-color: #444;
     color: #fff;
