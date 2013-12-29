@@ -1,8 +1,27 @@
 <template name="header">
-    <header class="wrapper">
-        <div class="row">
-            <div class="col-md-10"><h1><a href="{{pathFor 'home'}}" data-behavior="change-route">Get inspired!</a></h1></div>
-            <div class="col-md-2 col-sm-12 pull-right">{{loginButtons align="right"}}</div>
-        </div>
+    <header>
+    	<div class="wrapper">
+	        <div class="row">
+	            <div class="col-md-10"><h1><a href="{{pathFor 'home'}}" data-behavior="change-route">inspires.io</a></h1></div>
+	            <div class="col-md-2 col-sm-12 pull-right" style="height: 55px">{{loginButtons align="right"}}</div><!-- When we replace the social icons, we can remove this inline style -->
+	        </div>
+	        <div class="row">
+	            {{#if currentUser}}
+	                <div class="col-md-12">
+		                <div class="header-add">
+		                    <button type="button" class="btn btn-success btn-lg main-add pull-right" data-behavior="show-add-idea-form" data-id="0">Add {{#if root_ideas}} new Ideas{{else}}Idea{{/if}}</button>
+						</div>
+					</div>
+	            {{else }}
+	                <div class="col-sm-12 col-md-10 col-lg-7">
+	            		<div class="header-info">
+	                    	<h2>Where ideas are refined.</h2>
+	    	  				<p>Entrepreneurs, visionaries, idealists, founders, backers, dreamers, and enthusiasts collaborate to inspire new ideas.</p>
+		            	</div>
+		            </div>
+	            {{/if}}
+	        </div>
+	    </div>
     </header>
+
 </template>
