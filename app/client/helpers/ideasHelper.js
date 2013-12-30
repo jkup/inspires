@@ -26,6 +26,9 @@ define('ideasHelper', ['_Idea'], function(Idea) {
                 return Ideas.findOne({_id: objectId});
             }
 
+            /**
+             * Recursion is ugly...
+             */
             ,build_paths_recursively: function() {
                 // Parse arguments
                 var args = _.extend([
