@@ -8,8 +8,8 @@
     "packages": {
       "smart-collections": {
         "git": "https://github.com/arunoda/meteor-smart-collections.git",
-        "tag": "v0.3.24",
-        "commit": "622430e1294cbfa81a228ef283165f53aca03933"
+        "tag": "v0.3.26",
+        "commit": "20e6412b276cdf6a55945002f0cae1ccb5122f40"
       },
       "iron-router": {
         "git": "https://github.com/EventedMind/iron-router.git",
