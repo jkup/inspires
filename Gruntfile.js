@@ -6,6 +6,7 @@ module.exports = function(grunt) {
         ,'!node_modules/**/*.js'
         ,'!app/.meteor/**/*.js'
         ,'!app/client/lib/bootstrap.min.js'
+        ,'!app/**/google_analytics.js'
         ,'!app/packages/**/*.js'
     ];
 
