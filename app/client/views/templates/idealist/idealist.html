@@ -17,9 +17,7 @@
         <div class="name-options-wrapper" data-id="{{_id}}">
             <div class="idea-name" {{#if children}}data-behavior="{{#if show_children _id}}collapse-idea{{else}}expand-idea{{/if}}" data-id="{{_id}}"{{/if}}>
                 {{#if children}}
-                <button type="button" class="btn btn-default btn-sm">
-                    <span class="glyphicon {{#if show_children _id}}glyphicon-chevron-down{{else}}glyphicon-chevron-right{{/if}}"></span>
-                </button>
+                    <i class="fa fa-2x {{#if show_children _id}}fa-sort-down{{else}}fa-sort-up up{{/if}}"></i>
                 {{/if}}
 
                 {{title}}
@@ -70,7 +68,7 @@
             <span class="glyphicon glyphicon-thumbs-up"></span>
         </button>
 
-        <button type="button" class="btn btn-default btn-sm disabled">{{votes_average}}</button>
+        <button type="button" class="btn btn-default btn-sm disabled" data-votes="{{votes_average}}">{{votes_average}}</button>
 
         <button type="button" class="btn btn-default btn-sm {{down_vote_active}}" data-behavior="vote-down" data-id="{{_id}}" title="Vote Down">
           <span class="glyphicon glyphicon-thumbs-down"></span>

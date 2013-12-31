@@ -1,6 +1,7 @@
 {
   "packages": {
     "smart-collections": {},
-    "iron-router": {}
+    "iron-router": {},
+    "font-awesome": {}
   }
 }
