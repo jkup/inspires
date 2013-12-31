@@ -51,6 +51,7 @@ header {
 	margin: 0 auto -60px;
 	min-height: 100%;
 	padding: 0 0 60px;
+	background: #f1f1f1;
 }
 .wrapper {
 	width: 80%;
@@ -163,7 +164,7 @@ a.login-close-text {
  * Idea list 
  */
 button.btn-success {
-	background: #7cc576;
+	background: $green;
 	text-transform: uppercase;
 	font-size: 1em;
 	padding: 0.8em 2em;
@@ -189,11 +190,12 @@ ul {
 		padding: .4em .4em .4em 2em;
 		*padding: .4em;
 		margin: .25em 0;
-		background: #ddd;
+		background: #fff;
 		color: #444;
 		text-decoration: none;
 		border-radius: .3em;
 		transition: all .3s ease-out;
+		border: 1px solid $mediumgray;
 		width: 100%;
 		min-height: 30px;
 		line-height: 30px;
@@ -206,7 +208,7 @@ ul {
 		}
 	}
 	li .idea-name:hover {
-		background: #eee;
+		border: 1px solid $seafoam;
 	}
 	li .idea-name:hover + .options > .extra-actions {
 		display: block;
@@ -230,7 +232,34 @@ ul {
 form.new-idea {
 	min-width: 200px
 }
+.btn[data-votes] { // default to positive value
+	background: $green;
+	color: #fff;
+	font-weight: bold;
+	width: 35px;
+	&.disabled {
+		opacity: 1;
+	}
+}
+.btn[data-votes^="-"] {
+	background: $red;
+	color: #fff;
+	&.disabled {
+		opacity: 1;
+	}
+}
+.btn[data-votes="0"] {
+	background: $mediumgray;
+	color: $darkgray;
+}
+i:focus {
+	outline: none;
+}
 
+.up {
+	position: relative;
+	top: 10px;
+}
 /**
  * About 
  */
