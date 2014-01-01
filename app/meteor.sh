@@ -44,27 +44,31 @@ echo Done. You can now deploy your app.
 deploy )
 echo Deploying...
 $METEOR_CMD bundle bundle.tgz > /dev/null 2>&1 &&
+echo Uploading to server... &&
 scp $SSH_OPT bundle.tgz $SSH_HOST:/tmp/ > /dev/null 2>&1 &&
 rm bundle.tgz > /dev/null 2>&1 &&
-echo "if [ ! -d "$APP_DIR" ]; then
-sudo mkdir -p $APP_DIR
-sudo chown -R www-data:www-data $APP_DIR
+echo "# run \`sudo -i\` before executing this script
+if [ ! -d "$APP_DIR" ]; then
+mkdir -p $APP_DIR
+chown -R www-data:www-data $APP_DIR
 fi
 pushd $APP_DIR
-sudo forever stop bundle/main.js
-sudo rm -rf bundle
-sudo tar xfz /tmp/bundle.tgz -C $APP_DIR
-sudo rm /tmp/bundle.tgz
+forever stop bundle/main.js
+rm -rf bundle
+tar xfz /tmp/bundle.tgz -C $APP_DIR
+rm /tmp/bundle.tgz
 pushd bundle/programs/server/node_modules
-sudo rm -rf fibers
-sudo npm install fibers@1.0.1
+rm -rf fibers
+npm install fibers@1.0.1
 popd
-sudo chown -R www-data:www-data bundle
-sudo PORT=$PORT MONGO_URL=$MONGO_URL ROOT_URL=$ROOT_URL forever start bundle/main.js
+chown -R www-data:www-data bundle
+PORT=$PORT MONGO_URL=$MONGO_URL ROOT_URL=$ROOT_URL forever start bundle/main.js
 popd" > server.sh
+echo Uploading server script... &&
 scp $SSH_OPT server.sh $SSH_HOST:/home/$username/server.sh > /dev/null 2>&1
 rm server.sh > /dev/null 2>&1
-echo Your app is deployed and serving on: $ROOT_URL
+echo Your app is deployed on: $ROOT_URL
+echo Login to the server and run the ./server.sh script
 ;;
 * )
 cat <<'ENDCAT'
