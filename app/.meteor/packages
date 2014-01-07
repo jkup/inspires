@@ -8,8 +8,8 @@ insecure
 preserve-inputs
 meteor-smd
 smart-collections
-accounts-twitter
-accounts-facebook
 accounts-ui-unstyled
 iron-router
 font-awesome
+accounts-google
+accounts-twitter

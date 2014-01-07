@@ -3,12 +3,14 @@
 // Taken from: http://ondrej-kvasnovsky.blogspot.com/2013/07/meteor-how-to-login-with-github-account.html
 
 var isProdEnv = function() {
-    if (process.env.ROOT_URL === 'http://localhost:3000') {
+    if (process.env.ROOT_URL.match(/http:\/\/localhost:3000/g)) {
         return false;
     } else {
         return true;
     }
 };
+
+console.log(process.env.ROOT_URL);
 
 Accounts.loginServiceConfiguration.remove({
     service: 'google'
@@ -39,8 +41,8 @@ if (isProdEnv()) {
     });
     Accounts.loginServiceConfiguration.insert({
         service: 'google',
-        clientId: '00000',
-        secret: '00000'
+        clientId: '1003741762815-mbm1l0p4kchurnarq1u1ohvc6b14k8qq.apps.googleusercontent.com',
+        secret: 'q2XoUqWrrsj86Ln3wfSQoXRk'
     });
     Accounts.loginServiceConfiguration.insert({
         service: 'facebook',
@@ -61,8 +63,8 @@ if (isProdEnv()) {
     });
     Accounts.loginServiceConfiguration.insert({
         service: 'google',
-        clientId: '11111',
-        secret: '11111'
+        clientId: '1003741762815-u0ceptcff6fr1jn989fslrecooundrpd.apps.googleusercontent.com',
+        secret: 'Pm4fuV6Xclq48MEank0Jn6AF'
     });
     Accounts.loginServiceConfiguration.insert({
         service: 'facebook',
