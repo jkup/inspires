@@ -3,14 +3,12 @@
 // Taken from: http://ondrej-kvasnovsky.blogspot.com/2013/07/meteor-how-to-login-with-github-account.html
 
 var isProdEnv = function() {
-    if (process.env.ROOT_URL.match(/http:\/\/localhost:3000/g)) {
+    if (process.env.ROOT_URL.match(/http:\/\/localhost:3000/)) {
         return false;
     } else {
         return true;
     }
 };
-
-console.log(process.env.ROOT_URL);
 
 Accounts.loginServiceConfiguration.remove({
     service: 'google'
