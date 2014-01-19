@@ -17,7 +17,7 @@
         <div class="name-options-wrapper" data-id="{{_id}}">
             <div class="idea-name" {{#if children}}data-behavior="{{#if show_children _id}}collapse-idea{{else}}expand-idea{{/if}}" data-id="{{_id}}"{{/if}}>
                 {{#if children}}
-                    <i class="fa fa-2x {{#if show_children _id}}fa-sort-down{{else}}fa-sort-up up{{/if}}"></i>
+                    <i class="open-idea fa {{#if show_children _id}}fa-chevron-down{{else}}fa-chevron-up up{{/if}}"></i>
                 {{/if}}
 
                 {{title}}

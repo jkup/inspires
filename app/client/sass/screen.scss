@@ -60,10 +60,11 @@ header {
 }
 @media screen and (max-width: 800px) {
     .wrapper {
-	width: 100%;
+		width: 100%;
     }
+
     .wrapper .pull-right {
-	float: left !important;
+		float: left !important;
     }
 }
 
@@ -90,7 +91,7 @@ footer {
         		margin: 0 5px;
 				outline: 0;
 
-        		:hover {
+        		&:hover {
         			color: #ccc;
         		}
         	}
@@ -101,13 +102,10 @@ footer {
 /**
  * Login menu 
  */
-.login-buttons-dropdown-align-right {
-	position: absolute;
-}
 a.login-close-text {
 	text-indent: -10000px;
 }
-.sign-in-text-twitter, .sign-in-text-facebook {
+.sign-in-text-twitter, .sign-in-text-google {
 	margin: 0 0 0.5em 0;
 	text-indent:-10000px;
 	display:inline-block;
@@ -115,9 +113,9 @@ a.login-close-text {
 	width:182px;
 	background-repeat: no-repeat;
 }
-.sign-in-text-facebook {
-	background-image: url('../../images/facebook-sign-in.png');
-    @include image-2x('../../images/facebook-sign-in2x.png', 182px, 32px);
+.sign-in-text-google {
+	background-image: url('../../images/google-sign-in.png');
+    @include image-2x('../../images/google-sign-in2x.png', 182px, 32px);
 }
 .sign-in-text-twitter {
 	background-image: url('../../images/twitter-sign-in.png');
@@ -127,8 +125,22 @@ a.login-close-text {
 	color: #fff;
 	cursor: pointer;
 }
-.login-button:hover {
-	color: #2a6496;
+.login-text-and-button {
+	float: right;
+}
+.login-text-and-button > div {
+	float: left;
+	padding-right: 10px;
+	text-transform: uppercase;
+	color: #ddd;
+}
+.login-text-and-button .login-display-name {
+	font-weight: 600;
+}
+.login-text-and-button #login-buttons-logout {
+	font-size: .9em;
+	margin-top: 1px;
+	font-weight: 200;
 	text-decoration: underline;
 }
 
@@ -206,6 +218,14 @@ ul {
 			background-color: transparent;
 			border: 0;
 		}
+
+		.open-idea {
+			cursor: pointer;
+
+			&:hover {
+				outline: none;
+			}
+		}
 	}
 	li .idea-name:hover {
 		border: 1px solid $seafoam;
@@ -252,14 +272,7 @@ form.new-idea {
 	background: $mediumgray;
 	color: $darkgray;
 }
-i:focus {
-	outline: none;
-}
 
-.up {
-	position: relative;
-	top: 10px;
-}
 /**
  * About 
  */
