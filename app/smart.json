@@ -2,6 +2,7 @@
   "packages": {
     "smart-collections": {},
     "iron-router": {},
-    "font-awesome": {}
+    "font-awesome": {},
+    "moment": {}
   }
 }

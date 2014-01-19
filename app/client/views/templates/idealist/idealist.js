@@ -1,6 +1,11 @@
 define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper, ideasHelper) {
     'use strict';
 
+    var date = new Date()
+        ,now_unix = Math.floor(date.getTime() / 1000)
+        ,midnigh_today_unix = Math.floor(new Date((date.getMonth() + 1) +'/'+ date.getDate() +'/'+ date.getFullYear()).getTime() / 1000)
+        ;
+
     // Outer most selector
     jQuery(document)
 
@@ -156,10 +161,33 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
 
     // Template helpers
 
+    Template.ideaGroups.helpers({
+        idea_groups: ideasHelper.group_ideas.bind(ideasHelper)
+    });
+
     Template.ideaList.rendered = ideaListView.initialize.bind(ideaListView);
 
     Template.ideaList.helpers({
-        root_ideas: ideasHelper.get_root_ideas.bind(ideasHelper)
+        idea_count: function() {
+            var length = this.root_ideas.length;
+            return length + ' Idea' + (length === 1 ? '': 's');
+        }
+        ,date_display: function() {
+            var unix_date;
+
+            if (!this.date) {return;}
+
+            unix_date = Math.floor(this.date.getTime() / 1000);
+            // Check if ideas were submitted today
+            if (midnigh_today_unix <= unix_date) {
+                return 'Today';
+            // If this group was submitted within the last week. 604800 === 1 week
+            } else if (now_unix - unix_date <= 604800) {
+                return moment(this.date).fromNow();
+            } else {
+                return 'on ' + moment(this.date).format('MMM Do, YYYY');
+            }
+        }
     });
 
     Template.ideaItem.helpers({

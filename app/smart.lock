@@ -4,23 +4,29 @@
     "basePackages": {
       "smart-collections": {},
       "iron-router": {},
-      "font-awesome": {}
+      "font-awesome": {},
+      "moment": {}
     },
     "packages": {
       "smart-collections": {
         "git": "https://github.com/arunoda/meteor-smart-collections.git",
-        "tag": "v0.3.26",
-        "commit": "20e6412b276cdf6a55945002f0cae1ccb5122f40"
+        "tag": "v0.4.0",
+        "commit": "da25a5e88c3b5e3c1cb3bd44fd7fdc3234448526"
       },
       "iron-router": {
         "git": "https://github.com/EventedMind/iron-router.git",
-        "tag": "v0.6.1",
-        "commit": "4e1ee0581d68bff422a915dacb0bd30eae10fe08"
+        "tag": "v0.6.2",
+        "commit": "ce56e58b45624dce992490f3a1c10f10d3948bae"
       },
       "font-awesome": {
         "git": "https://github.com/nate-strauser/meteor-font-awesome.git",
         "tag": "v4.0.3",
         "commit": "61e9361384347547ae144f8228faa4deffda23db"
+      },
+      "moment": {
+        "git": "https://github.com/acreeger/meteor-moment.git",
+        "tag": "v2.2.1",
+        "commit": "9ee12e714afe56b189f53076447b7b54f3012065"
       }
     }
   }

@@ -2,6 +2,6 @@
 
 window.HomeController = RouteController.extend({
     show: function() {
-        this.render('ideaList');
+        this.render('ideaGroups');
     }
 });

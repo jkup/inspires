@@ -34,7 +34,7 @@ Meteor.methods({
         if (objectId === path.root_id) {
             Ideas.remove(select);
         } else {
-           Ideas.update(select, {$pull: update});
+            Ideas.update(select, {$pull: update, $set: {updatedOn: new Date()}});
         }
 
         // Update users

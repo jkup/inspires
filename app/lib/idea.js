@@ -10,6 +10,10 @@ define('_Idea', function() {
         this.order = 0;
         this.owner = Meteor.user()._id;
         this.createdOn = new Date();
+
+        if (options.is_root) {
+            this.updatedOn = new Date();
+        }
     };
 
     _Idea.prototype = {

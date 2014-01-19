@@ -1,13 +1,20 @@
-<template name="ideaList">
+<template name="ideaGroups">
     <div class="wrapper">
-        <div class="row">
-            <div class="col-md-12">
-                <ul class="idea-list" {{#if root_ideas}}data-sortable="votes"{{/if}}>
-                {{#each root_ideas}}
-                    {{> ideaItem}}
-                {{/each}}
-                </ul>
-            </div>
+    {{#each idea_groups}}
+        {{> ideaList}}
+    {{/each}}
+    </div>
+</template>
+
+<template name="ideaList">
+    <div class="row idea-group">
+        <div class="col-md-12">
+            <p class="group-info">{{idea_count}} <span>updated {{date_display}}</span></p>
+            <ul class="idea-list" {{#if root_ideas}}data-sortable="votes"{{/if}}>
+            {{#each root_ideas}}
+                {{> ideaItem}}
+            {{/each}}
+            </ul>
         </div>
     </div>
 </template>

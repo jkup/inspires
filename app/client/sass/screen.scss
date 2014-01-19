@@ -180,6 +180,16 @@ a.login-close-text {
 /**
  * Idea list 
  */
+.idea-group {
+	margin-bottom: 30px;
+
+	.group-info {
+		text-transform: uppercase;
+		span {
+			color: #a5a5a5;
+		}
+	}
+}
 button.btn-success {
 	background: $green;
 	text-transform: uppercase;

@@ -6,16 +6,44 @@ define('ideasHelper', ['_Idea'], function(Idea) {
         var paths = {};
 
         return {
-            get_root_ideas: function() {
-                var _ideas = Ideas.find().fetch()
+            group_ideas: function() {
+                var ideas = this.get_root_ideas()
+                    ,groups = []
+                    ,current_group = {root_ideas: [], date_formatted: false}
+                    ;
+
+                for (var i = 0; i < ideas.length; i++) {
+                    // Check to see if we need to create a new group
+                    if (current_group.date_formatted !== ideas[i].updatedOn.getDate() +'/'+ ideas[i].updatedOn.getMonth() +'/'+ ideas[i].updatedOn.getFullYear()) {
+                        if (current_group.root_ideas.length) {
+                            groups.push(current_group);
+                        }
+
+                        current_group = {
+                            root_ideas: []
+                            ,date: ideas[i].updatedOn
+                            ,date_formatted: ideas[i].updatedOn.getDate() +'/'+ ideas[i].updatedOn.getMonth() +'/'+ ideas[i].updatedOn.getFullYear()
+                        };
+                    }
+
+                    // Push idea to the current group
+                    current_group.root_ideas.push(ideas[i]);
+                }
+
+                groups.push(current_group);
+
+                return groups;
+            }
+
+            ,get_root_ideas: function() {
+                var _ideas = Ideas.find({}, {sort: {updatedOn: -1}}).fetch()
                     ,that = this
                     ;
 
                 // Run in background
                 setTimeout(function() {
-                    var ideas = _ideas;
-                    for (var i = 0; i < ideas.length; i++) {
-                        that.build_paths_recursively(ideas[i]);
+                    for (var i = 0; i < _ideas.length; i++) {
+                        that.build_paths_recursively(_ideas[i]);
                     }
                 });
 
@@ -78,7 +106,7 @@ define('ideasHelper', ['_Idea'], function(Idea) {
                     throw 'This idea already exists!';
                 }
 
-                var ObjectId = Ideas.insert(new Idea({title: idea_title}));
+                var ObjectId = Ideas.insert(new Idea({title: idea_title, is_root: true}));
                 this.build_paths_recursively(this.get_root_idea(ObjectId));
             }
 
@@ -97,7 +125,7 @@ define('ideasHelper', ['_Idea'], function(Idea) {
                 }
 
                 push[path.push_path] = new Idea({title: idea_title});
-                Ideas.update({'_id': new Meteor.Collection.ObjectID(path.root_id).toHexString()}, {$push: push});
+                Ideas.update({'_id': new Meteor.Collection.ObjectID(path.root_id).toHexString()}, {$push: push, $set: {updatedOn: new Date()}});
 
                 // Update paths
                 this.build_paths_recursively(this.get_root_idea(path.root_id));
