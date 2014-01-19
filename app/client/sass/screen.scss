@@ -266,6 +266,21 @@ ul {
 			display: none;
 			margin-right: 5px;
 		}
+
+		button[data-behavior~=delete-idea] {
+			color: #C57676;
+			background-color: transparent;
+			padding: 0;
+			margin: 5px 10px;
+			border: 0;
+			font-weight: 100;
+
+			&:hover {
+				border: 0;
+				background-color: transparent;
+				text-decoration: underline;
+			}
+		}
 	}
 	.options:hover > .extra-actions {
 		display: block;
