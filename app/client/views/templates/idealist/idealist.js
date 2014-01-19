@@ -195,6 +195,10 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
         ,votes_average: function() {
             return this.votes.up - this.votes.down;
         }
+        ,sub_idea_count: function() {
+            var length = this.children.length;
+            return length + ' sub idea' + (length === 1 ? '': 's');
+        }
     });
 
     Template.newIdea.helpers({

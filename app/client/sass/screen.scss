@@ -23,7 +23,7 @@ h1 {
 		outline: 0;
 	}
 	a:hover {
-		color: #444;
+		color: #000;
 	}
 }
 
@@ -241,6 +241,13 @@ ul {
 			&:hover {
 				outline: none;
 			}
+		}
+
+		.sub-idea-count {
+			font-size: .75em;
+			color: #a5a5a5;
+			text-decoration: underline;
+			font-weight: 100;
 		}
 	}
 	li .idea-name:hover {
