@@ -21,7 +21,7 @@
 
 <template name="ideaItem">
     <li data-votes="{{votes_average}}">
-        <div class="name-options-wrapper" data-id="{{_id}}">
+        <div class="idea-wrapper" data-idea-wrapper="{{_id}}" data-id="{{_id}}">
             <div class="idea-name" {{#if children}}data-behavior="{{#if show_children _id}}collapse-idea{{else}}expand-idea{{/if}}" data-id="{{_id}}"{{/if}}>
                 {{#if children}}
                     <i class="open-idea fa {{#if show_children _id}}fa-chevron-down{{else}}fa-chevron-up up{{/if}}"></i>
@@ -46,15 +46,17 @@
 </template>
 
 <template name="newIdea">
-    <form class="form new-idea" data-id="{{object_id}}" data-behavior="add-idea" role="form">
-        <label>{{add_idea_text}}</label>
-        <div class="input-group">
-            <input class="form-control" type="text" placeholder="Idea name" />
-            <span class="input-group-btn">
-                <button class="btn btn-primary" type="submit">Add!</button>
-            </span>
-        </div>
-    </form>
+    <div class="form-wrapper">
+        <div class="form-arrow"></div>
+        <form class="form new-idea{{class}}" data-id="{{object_id}}" data-behavior="add-idea" role="form">
+            <div class="input-group">
+                <input class="form-control input-lg" type="text" placeholder="{{add_idea_text}}" />
+                <span class="input-group-btn">
+                    <button class="btn btn-success btn-lg" type="submit">{{add_btn_text}}</button>
+                </span>
+            </div>
+        </form>
+    </div>
 </template>
 
 <template name="options">

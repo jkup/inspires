@@ -7,6 +7,15 @@ jQuery(document)
     .on('click', '[data-behavior~=close]', function() {
         jQuery(jQuery(this).attr('data-close-element')).slideUp();
     })
+    .on('click', '[data-behavior~=show-add-idea-form]', function(e) {
+        var $this = jQuery(this)
+            ,id = $this.data('id')
+            ;
+
+        e.preventDefault();
+
+        $this.trigger('show_idea_form', ['[data-idea-wrapper='+ id +']', id]);
+    })
     .on('submit', '[data-behavior~=add-idea]', function(e) {
         var $this = jQuery(this);
         e.preventDefault();

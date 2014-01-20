@@ -1,35 +1,34 @@
 <template name="header">
-    <header>
-    	<div class="wrapper">
-	        <div class="row">
-	            <div class="col-md-9"><h1><a href="{{pathFor 'home'}}" data-behavior="change-route">inspires.io</a></h1></div>
-	            <div class="col-md-3 col-sm-12 pull-right">
-	            	<div class="login-wrapper">
+	<header>
+		<div class="wrapper">
+			<div class="row">
+				<div class="col-md-8"><h1><a href="{{pathFor 'home'}}" data-behavior="change-route">inspires.io</a></h1></div>
+				<div class="col-md-4 col-sm-12 pull-right">
+					<div class="login-wrapper">
 					{{#if currentUser}}
 						{{> _loginButtons}}
 					{{else}}
 						{{> _loginButtonsLoggedOutAllServices}}
 					{{/if}}
 					</div>
-	            </div>
-	        </div>
-	        <div class="row">
-	            {{#if currentUser}}
-	                <div class="col-md-12">
-		                <div class="header-add">
-		                    <button type="button" class="btn btn-success btn-lg main-add pull-right" data-behavior="show-add-idea-form" data-id="0">Add {{#if root_ideas}} new Ideas{{else}}Idea{{/if}}</button>
+				</div>
+			</div>
+			<div class="row">
+				{{#if currentUser}}
+					<div class="col-md-12">
+						<div class="header-add">
+							{{> newIdea}}
 						</div>
 					</div>
-	            {{else }}
-	                <div class="col-sm-12 col-md-10 col-lg-7">
-	            		<div class="header-info">
-	                    	<h2>Where ideas are refined.</h2>
-	    	  				<p>Entrepreneurs, visionaries, idealists, founders, backers, dreamers, and enthusiasts collaborate to inspire new ideas.</p>
-		            	</div>
-		            </div>
-	            {{/if}}
-	        </div>
-	    </div>
-    </header>
-
+				{{else }}
+					<div class="col-sm-12 col-md-10 col-lg-7">
+						<div class="header-info">
+							<h2>Where ideas are refined.</h2>
+							<p>Entrepreneurs, visionaries, idealists, founders, backers, dreamers, and enthusiasts collaborate to inspire new ideas.</p>
+						</div>
+					</div>
+				{{/if}}
+			</div>
+		</div>
+	</header>
 </template>

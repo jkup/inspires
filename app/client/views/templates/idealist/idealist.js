@@ -10,6 +10,21 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
     jQuery(document)
 
         // Setup custom events
+        .on('show_idea_form', function(e, el, id) {
+            var $el = jQuery(el);
+
+            // If has class then remove
+            if ($el.hasClass('adding-idea')) {
+                $el.removeClass('adding-idea').find('div.form-wrapper').remove();
+            } else {
+                // Remove old form
+                jQuery('div.form-wrapper').parent().removeClass('adding-idea').end().remove();
+                // Add new form
+                $el.addClass('adding-idea').append(Template.newIdea({
+                    object_id: id
+                })).find('div.form-wrapper input').focus();
+            }
+        })
         .on('add_idea.idea_list', function(e, objectId, idea_title) {
             // If no input from user
             if (!idea_title) {return;}
@@ -82,7 +97,6 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
             }
 
             ,close_popups: function() {
-                this.$new_idea_btns.popover('hide');
                 open_popups = [];
             }
 
@@ -128,31 +142,6 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
 
             // Initialize
             ,initialize: function() {
-                this.$new_idea_btns = jQuery('[data-behavior~=show-add-idea-form]');
-                this.$new_idea_btns.each(function(){
-                    var $this = jQuery(this)
-                        ,objectId = $this.data('id')
-                        ;
-
-                    $this.popover({
-                        placement: 'auto top'
-                        ,container: objectId ? '.name-options-wrapper[data-id~=' + objectId + ']' : false
-                        ,html: true
-                        ,content: Template.newIdea({
-                            object_id: $this.data('id')
-                        })
-                    })
-                    .on('shown.bs.popover', function() {
-                        var $el = jQuery('.form[data-id~=' + objectId + ']:visible').find('input');
-                        $el.focus();
-                        open_popups.push({
-                            button: jQuery(this),
-                            input: $($el[0])
-                        });
-                    })
-                    ;
-                });
-
                 // Trigger sort
                 this.sort_ideas();
             }
@@ -202,11 +191,26 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
     });
 
     Template.newIdea.helpers({
-        add_idea_text: function() {
-            if (this.object_id === 0) {
-                return 'Add new idea';
+        object_id: function() {
+            return this.object_id || 0;
+        }
+        ,add_idea_text: function() {
+            if (this.object_id) {
+                return 'Your sub idea...';
             } else {
+                return 'Your idea...';
+            }
+        }
+        ,add_btn_text: function() {
+            if (this.object_id) {
                 return 'Add sub idea';
+            } else {
+                return 'Add idea';
+            }
+        }
+        ,class: function() {
+            if (this.object_id) {
+                return ' sub-idea';
             }
         }
     });
