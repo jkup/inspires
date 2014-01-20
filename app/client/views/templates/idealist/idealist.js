@@ -180,6 +180,15 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
     });
 
     function escapeChar(chr) {
+        var escape = {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#x27;",
+          "`": "&#x60;"
+        };
+
         return escape[chr] || '&amp;';
     }
 
@@ -203,7 +212,8 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
             return string_parts.join(' ');
         }
         ,class: function() {
-            return this.owner === Meteor.user()._id ? ' idea-owner' : '';
+            var user = Meteor.user();
+            return (user && this.owner === user._id) ? ' idea-owner' : '';
         }
         ,show_children: ideasHelper.is_idea_opened.bind(ideasHelper)
         ,votes_average: function() {
