@@ -180,12 +180,12 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
     });
 
     function escapeChar(chr) {
-        return escape[chr] || "&amp;";
+        return escape[chr] || '&amp;';
     }
 
     Template.ideaItem.helpers({
         title: function() {
-            var urlregex = new RegExp("^(http|https|ftp)\://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=~])*$")
+            var urlregex = new RegExp("^(http|https|ftp)://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=~])*$")
                 ,string_parts = this.title.split(' ')
                 ,matches
                 ;
@@ -194,7 +194,7 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
                 matches = string_parts[i].match(urlregex);
                 if (!matches) {
                     // Escape to prevent xss
-                    string_parts[i] = string_parts[i].replace(/[&<>"'`]/g, escapeChar)
+                    string_parts[i] = string_parts[i].replace(/[&<>"'`]/g, escapeChar);
                 } else {
                     string_parts[i] = '<a href="' + matches[0] + '" rel="nofollow">' + matches[0] + '</a>';
                 }
