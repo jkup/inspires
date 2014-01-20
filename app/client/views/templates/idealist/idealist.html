@@ -76,13 +76,13 @@
         {{/if}}
 
         <button type="button" class="btn btn-default btn-sm {{up_vote_active}}" data-behavior="vote-up" data-id="{{_id}}" title="Vote Up">
-            <span class="glyphicon glyphicon-thumbs-up"></span>
+            <i class="fa fa-thumbs-o-up"></i>
         </button>
 
         <button type="button" class="btn btn-default btn-sm disabled" data-votes="{{votes_average}}">{{votes_average}}</button>
 
         <button type="button" class="btn btn-default btn-sm {{down_vote_active}}" data-behavior="vote-down" data-id="{{_id}}" title="Vote Down">
-          <span class="glyphicon glyphicon-thumbs-down"></span>
+          <i class="fa fa-thumbs-o-down"></i>
         </button>
     </div>
 </template>
