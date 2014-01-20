@@ -269,7 +269,10 @@ ul {
 			font-weight: 100;
 		}
 
-		&:hover, &.idea-owner {
+		&.idea-owner {
+			border: 1px solid lighten($seafoam, 20%);
+		}
+		&:hover {
 			border: 1px solid $seafoam;
 		}
 		&:hover + .options > .extra-actions {
