@@ -17,10 +17,14 @@ jQuery(document)
         $this.trigger('show_idea_form', ['[data-idea-wrapper='+ id +']', id]);
     })
     .on('submit', '[data-behavior~=add-idea]', function(e) {
-        var $this = jQuery(this);
+        var $this = jQuery(this)
+            ,$input = $this.find('input:first')
+            ;
+
         e.preventDefault();
 
-        $this.trigger('add_idea', [$this.data('id'), $this.find('input:first').val()]);
+        $this.trigger('add_idea', [$this.data('id'), $input.val()]);
+        $input.val('');
     })
     .on('blur', '[data-behavior~=add-idea]', function() {
         var $this = jQuery(this);

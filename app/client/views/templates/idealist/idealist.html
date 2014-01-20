@@ -22,12 +22,12 @@
 <template name="ideaItem">
     <li data-votes="{{votes_average}}">
         <div class="idea-wrapper" data-idea-wrapper="{{_id}}" data-id="{{_id}}">
-            <div class="idea-name" {{#if children}}data-behavior="{{#if show_children _id}}collapse-idea{{else}}expand-idea{{/if}}" data-id="{{_id}}"{{/if}}>
+            <div class="idea-name{{class}}" {{#if children}}data-behavior="{{#if show_children _id}}collapse-idea{{else}}expand-idea{{/if}}" data-id="{{_id}}"{{/if}}>
                 {{#if children}}
                     <i class="open-idea fa {{#if show_children _id}}fa-chevron-down{{else}}fa-chevron-up up{{/if}}"></i>
                 {{/if}}
 
-                {{title}}
+                {{{title}}}
 
                 <span class="sub-idea-count">{{sub_idea_count}}</span>
             </div>

@@ -18,7 +18,7 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
                 $el.removeClass('adding-idea').find('div.form-wrapper').remove();
             } else {
                 // Remove old form
-                jQuery('div.form-wrapper').parent().removeClass('adding-idea').end().remove();
+                jQuery('.idea-group div.form-wrapper').parent().removeClass('adding-idea').end().remove();
                 // Add new form
                 $el.addClass('adding-idea').append(Template.newIdea({
                     object_id: id
@@ -179,8 +179,33 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
         }
     });
 
+    function escapeChar(chr) {
+        return escape[chr] || "&amp;";
+    }
+
     Template.ideaItem.helpers({
-        show_children: ideasHelper.is_idea_opened.bind(ideasHelper)
+        title: function() {
+            var urlregex = new RegExp("^(http|https|ftp)\://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=~])*$")
+                ,string_parts = this.title.split(' ')
+                ,matches
+                ;
+
+            for (var i = 0; i < string_parts.length; i++) {
+                matches = string_parts[i].match(urlregex);
+                if (!matches) {
+                    // Escape to prevent xss
+                    string_parts[i] = string_parts[i].replace(/[&<>"'`]/g, escapeChar)
+                } else {
+                    string_parts[i] = '<a href="' + matches[0] + '" rel="nofollow">' + matches[0] + '</a>';
+                }
+            }
+
+            return string_parts.join(' ');
+        }
+        ,class: function() {
+            return this.owner === Meteor.user()._id ? ' idea-owner' : '';
+        }
+        ,show_children: ideasHelper.is_idea_opened.bind(ideasHelper)
         ,votes_average: function() {
             return this.votes.up - this.votes.down;
         }
