@@ -9,10 +9,12 @@ define('_Idea', function() {
         this.votes = {up: 0, down: 0};
         this.order = 0;
         this.owner = Meteor.user()._id;
+        this.private = false;
         this.createdOn = new Date();
 
         if (options.is_root) {
             this.updatedOn = new Date();
+            this.private = options.is_private;
         }
     };
 

@@ -25,13 +25,19 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
                 })).find('div.form-wrapper input').focus();
             }
         })
-        .on('add_idea.idea_list', function(e, objectId, idea_title) {
+        .on('add_idea.idea_list', function(e, objectId, idea_title, is_private) {
+            var newObjectId;
+
             // If no input from user
             if (!idea_title) {return;}
 
             // See if we are adding a root idea or child idea
             if (0 === objectId) {
-                ideasHelper.add_root(idea_title);
+                newObjectId = ideasHelper.add_root(idea_title, is_private);
+
+                if (is_private) {
+                    nHelper.notify('Share your idea, copy this link: ' + ideasHelper.get_share_url(newObjectId), {type: nHelper.SUCCESS});
+                }
             } else {
                 // Add child
                 ideasHelper.add_child(objectId, idea_title);
@@ -39,17 +45,29 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
                 // Auto open children
                 jQuery(this).trigger('expand_idea', objectId);
             }
-            ideaListView.close_popups();
             nHelper.notify('Idea added', {type: nHelper.SUCCESS, auto_dismiss: true});
         })
-        .on('hide_idea.idea_list', function() {
-            var open_popups = ideaListView.get_popups();
-                jQuery.each(open_popups, function(key, popup) {
-                    if(jQuery(popup.input).val().length === 0) {
-                        open_popups.splice(key, 1);
-                        popup.button.popover('hide');
-                    }
-                });
+        .on('root_idea_focus.idea_list', function(e) {
+            jQuery(e.target).find('[data-toggle=true]').slideDown();
+        })
+        .on('root_idea_blur.idea_list', function(e) {
+            var $this = jQuery(e.target)
+                ,$input = $this.find('input:first')
+                ;
+
+            // Hide if there's no value
+            if (!$input.val()) {
+                $this.find('[data-toggle=true]').slideUp();
+            }
+        })
+        .on('share_idea.idea_list', function(e, share_link) {
+            if (!share_link) {return;}
+
+            // Display link for copy
+            ideaListView.modal({
+                header: 'Copy share link'
+                ,body: '<input type="text" class="share-link" value="' + share_link + '" />'
+            });
         })
         .on('delete_idea.idea_list', function(e, objectId) {
             if (confirm('Are you sure?')) {
@@ -91,21 +109,11 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
         ;
 
     var ideaListView = (function() {
-        var open_popups = [];
-
         return {
-            get_popups: function() {
-                return open_popups;
-            }
-
-            ,close_popups: function() {
-                open_popups = [];
-            }
-
             /**
              * Sorting ideas algorithm
              */
-            ,sort_ideas: function() {
+            sort_ideas: function() {
                 jQuery('[data-sortable]').each(function() {
                     var $this = jQuery(this)
                         ,sortable_tag = $this.data('sortable')
@@ -142,10 +150,42 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
                 });
             }
 
+            ,modal: function(data) {
+                var html = '';
+
+                if (typeof data === 'string') {
+                    data = {body: data};
+                }
+
+                if (data.header) {
+                    html += '<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 id="modal-label" class="modal-title">' + data.header + '</h4></div>';
+                }
+
+                if (data.body) {
+                    html += '<div class="modal-body">' + data.body + '</div>';
+                }
+
+                if (data.footer) {
+                    html += '<div class="modal-footer">' + data.footer + '</div>';
+                }
+
+                this.modal_container.find('.modal-content:first').html(html);
+                this.modal_container.modal();
+                setTimeout(function(){
+                    var $el = ideaListView.modal_container.find('input[type="text"]:first');
+                    if ($el[0]) {
+                        $el.focus().select();
+                    }
+                }, 500);
+            }
+
             // Initialize
             ,initialize: function() {
                 // Trigger sort
                 this.sort_ideas();
+
+                // Keep track of modal
+                this.modal_container = jQuery('[data-modal=small]');
             }
         };
     }());
@@ -213,6 +253,9 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
 
             return string_parts.join(' ');
         }
+        ,share_link: function() {
+            return ideasHelper.get_share_url(this._id);
+        }
         ,class: function() {
             var user = Meteor.user();
             return (user && this.owner === user._id) ? ' idea-owner' : '';
@@ -230,6 +273,9 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
     Template.newIdea.helpers({
         object_id: function() {
             return this.object_id || 0;
+        }
+        ,is_root: function() {
+            return typeof this.object_id === 'undefined';
         }
         ,add_idea_text: function() {
             if (this.object_id) {

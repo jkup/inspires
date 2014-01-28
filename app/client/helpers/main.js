@@ -1,7 +1,7 @@
 'use strict';
 
 Meteor.subscribe('userData');
-Meteor.subscribe('ideas');
+Meteor.subscribe('ideas', window.location.pathname);
 
 window.onerror = function(error) {
     error = error.replace('uncaught exception: ', '');

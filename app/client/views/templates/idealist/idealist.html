@@ -4,6 +4,8 @@
         {{> ideaList}}
     {{/each}}
     </div>
+
+    <div class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-labelledby="smallModal" aria-hidden="true" data-modal="small"><div class="modal-dialog modal-sm"><div class="modal-content"></div></div></div>
 </template>
 
 <template name="ideaList">
@@ -28,6 +30,10 @@
                 {{/if}}
 
                 {{{title}}}
+
+                {{#if private}}
+                <span class="share" data-behavior="share-idea" data-href="{{share_link}}">Share</span>
+                {{/if}}
 
                 <span class="sub-idea-count">{{sub_idea_count}}</span>
             </div>
@@ -55,6 +61,15 @@
                     <button class="btn btn-success btn-lg" type="submit">{{add_btn_text}}</button>
                 </span>
             </div>
+
+            {{#if is_root}}
+            <div class="input-group privatize pull-right" data-toggle="true">
+                <label class="checkbox-inline">
+                    Make idea private
+                    <input type="checkbox" data-privataize="true" />
+                </label>
+            </div>
+            {{/if}}
         </form>
     </div>
 </template>

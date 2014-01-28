@@ -100,14 +100,24 @@ define('ideasHelper', ['_Idea'], function(Idea) {
                 return paths[objectId];
             }
 
-            ,add_root: function(idea_title) {
+            ,add_root: function(idea_title, is_private) {
+                var query = {title: idea_title, private: false};
+
+                // Build query for private ideas
+                if (is_private) {
+                    query.private = true;
+                    query.owner = Meteor.user()._id;
+                }
+
                 // Let's check first that this idea doesn't already exist
-                if (Ideas.find({title: idea_title}).fetch().length) {
+                if (Ideas.find(query).fetch().length) {
                     throw 'This idea already exists!';
                 }
 
-                var ObjectId = Ideas.insert(new Idea({title: idea_title, is_root: true}));
-                this.build_paths_recursively(this.get_root_idea(ObjectId));
+                var objectId = Ideas.insert(new Idea({title: idea_title, is_root: true, is_private: is_private}));
+                this.build_paths_recursively(this.get_root_idea(objectId));
+
+                return objectId;
             }
 
             ,add_child: function(objectId, idea_title) {
@@ -138,6 +148,12 @@ define('ideasHelper', ['_Idea'], function(Idea) {
 
             ,get_paths: function() {
                 return paths;
+            }
+
+            // TODO: Shorten this URL
+            ,get_share_url: function(objectId) {
+                var idea = this.get_root_idea(objectId);
+                return 'http://' + window.location.host + '/' + idea.owner + '/' + idea._id;
             }
 
             // User

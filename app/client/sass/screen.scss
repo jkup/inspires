@@ -155,7 +155,7 @@ a.login-close-text {
 .notifications {
 	left: 11.3%;
 	position: absolute;
-	top: 125px;
+	top: 25px;
 	width: 350px;
 	z-index: 9999;
 
@@ -262,6 +262,14 @@ ul {
 			}
 		}
 
+		.share {
+			color: #428BCA;
+			cursor: pointer;
+			font-size: .80em;
+			font-weight: 100;
+			text-decoration: underline;
+		}
+
 		.sub-idea-count {
 			font-size: .75em;
 			color: #a5a5a5;
@@ -338,7 +346,24 @@ ul {
 }
 
 form.new-idea {
-	min-width: 200px
+	min-width: 200px;
+
+	.privatize {
+		display: none;
+		color: #fff;
+		font-size: 21px;
+		margin-top: 10px;
+
+		input {
+			height: 23px;
+			width: 19px;
+			margin-right: 10px;
+
+			&:active, &:focus {
+				outline: 0;
+			}
+		}
+	}
 }
 .btn[data-votes] { // default to positive value
 	background: $green;
@@ -359,6 +384,11 @@ form.new-idea {
 .btn[data-votes="0"] {
 	background: $mediumgray;
 	color: $darkgray;
+}
+.share-link {
+	width: 100%;
+	border: 0;
+	background-color: transparent;
 }
 
 /**

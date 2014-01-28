@@ -1,7 +1,22 @@
 'use strict';
 
-Meteor.publish('ideas', function() {
-    return Ideas.find();
+Meteor.publish('ideas', function(path) {
+    var matches = path.match(/^\/([a-zA-Z0-9]{12,})\/([a-zA-Z0-9]{24})\/?$/);
+
+    if (matches !== null) {
+        return Ideas.find({
+            _id: matches[2]
+            ,owner: matches[1]
+        });
+    } else {
+        return Ideas.find({
+            $or: [
+                {private: {$exists: false}}
+                ,{private: false}
+                ,{private: true, owner: this.userId}
+            ]
+        });
+    }
 });
 
 Meteor.methods({
