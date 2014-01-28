@@ -376,13 +376,23 @@ form.new-idea {
 		margin: 0 0 35px;
 	}
 
-	.team-member {
-		width: 165px;
-		margin: 0 auto;
-	}
+	.authors {
+		h2 {
+			margin-top: 20px;
+		}
 
-	img {
-		@include border-radius(100px);
-		width: 165px;
+		.team-member {
+			width: 165px;
+			margin: 0 auto;
+		}
+
+		img {
+			@include border-radius(100px);
+			width: 165px;
+		}
+
+		& + .authors {
+			margin-top: 30px;
+		}
 	}
 }

@@ -1,5 +1,11 @@
 'use strict';
 
+Template.header.helpers({
+	about_page: function() {
+		return Router.current().template === 'about';
+	}
+});
+
 Template._loginButtonsLoggedOutAllServices.helpers({
 	services: function() {
 		var services = Accounts.oauth.serviceNames()

@@ -52,7 +52,9 @@ define('ideaListView', ['notificationsHelper', 'ideasHelper'], function(nHelper,
                 });
         })
         .on('delete_idea.idea_list', function(e, objectId) {
-            ideasHelper.remove_idea(objectId);
+            if (confirm('Are you sure?')) {
+                ideasHelper.remove_idea(objectId);
+            }
         })
         .on('expand_idea.idea_list', function(e, objectId) {
             if (!Meteor.user()) {

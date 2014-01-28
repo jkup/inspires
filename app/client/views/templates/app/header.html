@@ -15,12 +15,14 @@
 			</div>
 			<div class="row">
 				{{#if currentUser}}
+					{{#unless about_page}}
 					<div class="col-md-12">
 						<div class="header-add">
 							{{> newIdea}}
 						</div>
 					</div>
-				{{else }}
+					{{/unless}}
+				{{else}}
 					<div class="col-sm-12 col-md-10 col-lg-7">
 						<div class="header-info">
 							<h2>Where ideas are refined.</h2>
